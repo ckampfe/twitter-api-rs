@@ -37,8 +37,8 @@ another future which completes successfully.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class="struct" href="struct.Finished.html"
-                                  title='struct tokio::prelude::future::Finished'>Finished</a></td>
+                           <td><a class="struct" href="struct.Failed.html"
+                                  title='struct tokio::prelude::future::Failed'>Failed</a></td>
                            <td class='docblock-short'>
                                 <p>A future representing a value that is immediately ready.</p>
 
@@ -333,6 +333,15 @@ available at some later point in time.</p>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
+                           <td><a class="fn" href="fn.collect.html"
+                                  title='fn tokio::prelude::future::collect'>collect</a></td>
+                           <td class='docblock-short'>
+                                <p>Creates a future which represents a collection of the results of the futures
+given.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="fn" href="fn.empty.html"
                                   title='fn tokio::prelude::future::empty'>empty</a></td>
                            <td class='docblock-short'>
@@ -342,28 +351,10 @@ finishes.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class="fn" href="fn.err.html"
-                                  title='fn tokio::prelude::future::err'>err</a></td>
+                           <td><a class="fn" href="fn.failed.html"
+                                  title='fn tokio::prelude::future::failed'>failed</a></td>
                            <td class='docblock-short'>
                                 <p>Creates a &quot;leaf future&quot; from an immediate value of a failed computation.</p>
-
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.finished.html"
-                                  title='fn tokio::prelude::future::finished'>finished</a></td>
-                           <td class='docblock-short'>
-                                <p>Creates a &quot;leaf future&quot; from an immediate value of a finished and
-successful computation.</p>
-
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.join_all.html"
-                                  title='fn tokio::prelude::future::join_all'>join_all</a></td>
-                           <td class='docblock-short'>
-                                <p>Creates a future which represents a collection of the results of the futures
-given.</p>
 
                            </td>
                        </tr>
@@ -381,6 +372,15 @@ by the closure provided.</p>
                                   title='fn tokio::prelude::future::loop_fn'>loop_fn</a></td>
                            <td class='docblock-short'>
                                 <p>Creates a new future implementing a tail-recursive loop.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.ok.html"
+                                  title='fn tokio::prelude::future::ok'>ok</a></td>
+                           <td class='docblock-short'>
+                                <p>Creates a &quot;leaf future&quot; from an immediate value of a finished and
+successful computation.</p>
 
                            </td>
                        </tr>
