@@ -37,14 +37,6 @@ another future which completes successfully.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
-                           <td><a class="struct" href="struct.Finished.html"
-                                  title='struct tokio::prelude::future::Finished'>Finished</a></td>
-                           <td class='docblock-short'>
-                                <p>A future representing a value that is immediately ready.</p>
-
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
                            <td><a class="struct" href="struct.Flatten.html"
                                   title='struct tokio::prelude::future::Flatten'>Flatten</a></td>
                            <td class='docblock-short'>
@@ -75,6 +67,14 @@ future-of-a-stream to get just the result of the final stream as a stream.</p>
                                   title='struct tokio::prelude::future::Fuse'>Fuse</a></td>
                            <td class='docblock-short'>
                                 <p>A future which &quot;fuses&quot; a future once it's been resolved.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.FutureResult.html"
+                                  title='struct tokio::prelude::future::FutureResult'>FutureResult</a></td>
+                           <td class='docblock-short'>
+                                <p>A future representing a value that is immediately ready.</p>
 
                            </td>
                        </tr>
@@ -333,6 +333,15 @@ available at some later point in time.</p>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>
+                           <td><a class="fn" href="fn.collect.html"
+                                  title='fn tokio::prelude::future::collect'>collect</a></td>
+                           <td class='docblock-short'>
+                                <p>Creates a future which represents a collection of the results of the futures
+given.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="fn" href="fn.empty.html"
                                   title='fn tokio::prelude::future::empty'>empty</a></td>
                            <td class='docblock-short'>
@@ -355,15 +364,6 @@ finishes.</p>
                            <td class='docblock-short'>
                                 <p>Creates a &quot;leaf future&quot; from an immediate value of a finished and
 successful computation.</p>
-
-                           </td>
-                       </tr>
-                       <tr class=' module-item'>
-                           <td><a class="fn" href="fn.join_all.html"
-                                  title='fn tokio::prelude::future::join_all'>join_all</a></td>
-                           <td class='docblock-short'>
-                                <p>Creates a future which represents a collection of the results of the futures
-given.</p>
 
                            </td>
                        </tr>
