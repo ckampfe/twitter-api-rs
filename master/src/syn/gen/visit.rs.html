@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/syn-0.15.12/src/gen/visit.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>visit.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/syn-0.15.12/src/gen/visit.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>visit.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -3195,7 +3195,7 @@
 <span id="3195">3195</span>
 <span id="3196">3196</span>
 <span id="3197">3197</span>
-<span id="3198">3198</span>
+<span id="3198"3198</span>
 <span id="3199">3199</span>
 <span id="3200">3200</span>
 <span id="3201">3201</span>
@@ -3377,118 +3377,31 @@
 <span id="3377">3377</span>
 <span id="3378">3378</span>
 <span id="3379">3379</span>
-<span id="3380">3380</span>
-<span id="3381">3381</span>
-<span id="3382">3382</span>
-<span id="3383">3383</span>
-<span id="3384">3384</span>
-<span id="3385">3385</span>
-<span id="3386">3386</span>
-<span id="3387">3387</span>
-<span id="3388">3388</span>
-<span id="3389">3389</span>
-<span id="3390">3390</span>
-<span id="3391">3391</span>
-<span id="3392">3392</span>
-<span id="3393">3393</span>
-<span id="3394">3394</span>
-<span id="3395">3395</span>
-<span id="3396">3396</span>
-<span id="3397">3397</span>
-<span id="3398">3398</span>
-<span id="3399">3399</span>
-<span id="3400">3400</span>
-<span id="3401">3401</span>
-<span id="3402">3402</span>
-<span id="3403">3403</span>
-<span id="3404">3404</span>
-<span id="3405">3405</span>
-<span id="3406">3406</span>
-<span id="3407">3407</span>
-<span id="3408">3408</span>
-<span id="3409">3409</span>
-<span id="3410">3410</span>
-<span id="3411">3411</span>
-<span id="3412">3412</span>
-<span id="3413">3413</span>
-<span id="3414">3414</span>
-<span id="3415">3415</span>
-<span id="3416">3416</span>
-<span id="3417">3417</span>
-<span id="3418">3418</span>
-<span id="3419">3419</span>
-<span id="3420">3420</span>
-<span id="3421">3421</span>
-<span id="3422">3422</span>
-<span id="3423">3423</span>
-<span id="3424">3424</span>
-<span id="3425">3425</span>
-<span id="3426">3426</span>
-<span id="3427">3427</span>
-<span id="3428">3428</span>
-<span id="3429">3429</span>
-<span id="3430">3430</span>
-<span id="3431">3431</span>
-<span id="3432">3432</span>
-<span id="3433">3433</span>
-<span id="3434">3434</span>
-<span id="3435">3435</span>
-<span id="3436">3436</span>
-<span id="3437">3437</span>
-<span id="3438">3438</span>
-<span id="3439">3439</span>
-<span id="3440">3440</span>
-<span id="3441">3441</span>
-<span id="3442">3442</span>
-<span id="3443">3443</span>
-<span id="3444">3444</span>
-<span id="3445">3445</span>
-<span id="3446">3446</span>
-<span id="3447">3447</span>
-<span id="3448">3448</span>
-<span id="3449">3449</span>
-<span id="3450">3450</span>
-<span id="3451">3451</span>
-<span id="3452">3452</span>
-<span id="3453">3453</span>
-<span id="3454">3454</span>
-<span id="3455">3455</span>
-<span id="3456">3456</span>
-<span id="3457">3457</span>
-<span id="3458">3458</span>
-<span id="3459">3459</span>
-<span id="3460">3460</span>
-<span id="3461">3461</span>
-<span id="3462">3462</span>
-<span id="3463">3463</span>
-<span id="3464">3464</span>
-<span id="3465">3465</span>
-<span id="3466">3466</span>
-<span id="3467">3467</span>
-<span id="3468">3468</span>
-<span id="3469">3469</span>
-<span id="3470">3470</span>
-<span id="3471">3471</span>
-<span id="3472">3472</span>
-<span id="3473">3473</span>
-<span id="3474">3474</span>
-<span id="3475">3475</span>
-<span id="3476">3476</span>
-<span id="3477">3477</span>
-<span id="3478">3478</span>
-<span id="3479">3479</span>
-<span id="3480">3480</span>
-<span id="3481">3481</span>
-<span id="3482">3482</span>
-<span id="3483">3483</span>
-<span id="3484">3484</span>
-<span id="3485">3485</span>
-<span id="3486">3486</span>
-<span id="3487">3487</span>
-<span id="3488">3488</span>
-<span id="3489">3489</span>
-<span id="3490">3490</span>
-<span id="3491">3491</span>
+</pre><pre class="rust ">
+<span class="comment">// THIS FILE IS AUTOMATICALLY GENERATED; DO NOT EDIT</span>
+
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;cargo-clippy&quot;</span>, <span class="ident">allow</span>(<span class="ident">match_same_arms</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;full&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;derive&quot;</span>))]</span>
+<span class="kw">use</span> <span class="ident">gen</span>::<span class="ident">helper</span>::<span class="ident">visit</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">proc_macro2</span>::<span class="ident">Span</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;full&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;derive&quot;</span>))]</span>
+<span class="kw">use</span> <span class="ident">punctuated</span>::<span class="ident">Punctuated</span>;
+<span class="kw">use</span> <span class="kw-2">*</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;full&quot;</span>)]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">full</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>
+    };
+}
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;derive&quot;</span>, <span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;full&quot;</span>)))]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">full</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
+        <span class="macro">unreachable</span><span class="macro">!</span>()
+    };
+}
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;full&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;derive&quot;</span>))]</span>
+<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">skip</span> {
+    ($(<span class="macro-nonterminal">$</span><span class="macro-non<span id="3491">3491</span>
 </pre><pre class="rust ">
 <span class="comment">// THIS FILE IS AUTOMATICALLY GENERATED; DO NOT EDIT</span>
 
@@ -6869,16 +6782,7 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">visit_use_group</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span>, <span class="ident">V</span>: <span class="ident">Visit</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">_visitor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">V</span>, <span class="ident">_i</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">UseGroup</span>) {
     <span class="ident">tokens_helper</span>(<span class="ident">_visitor</span>, <span class="kw-2">&amp;</span><span class="ident">_i</span>.<span class="ident">brace_token</span>.<span class="ident">span</span>);
     <span class="kw">for</span> <span class="ident">el</span> <span class="kw">in</span> <span class="ident">Punctuated</span>::<span class="ident">pairs</span>(<span class="kw-2">&amp;</span><span class="ident">_i</span>.<span class="ident">items</span>) {
-        <span class="kw">let</span> <span class="ident">it</span> <span class="op">=</span> <span class="ident">el</span>.<span class="ident">value</span>();
-        <span class="ident">_visitor</span>.<span class="ident">visit_use_tree</span>(<span class="ident">it</span>)
-    }
-}
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;full&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">visit_use_name</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span>, <span class="ident">V</span>: <span class="ident">Visit</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">_visitor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">V</span>, <span class="ident">_i</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">UseName</span>) {
-    <span class="ident">_visitor</span>.<span class="ident">visit_ident</span>(<span class="kw-2">&amp;</span><span class="ident">_i</span>.<span class="ident">ident</span>);
-}
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;full&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">visit_use_path</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span>, <span class="ident">V</span>: <span class="ident">Visit</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">_visitor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">V</span>, <span class="ident">_i</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">UsePath</span>) {
+        <span class="kw">let</span> <span class="ident"</section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../";window.currentCrate = "syn";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script defer src="../../../search-index.js"></script></body></html>pub</span> <span class="kw">fn</span> <span class="ident">visit_use_path</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span>, <span class="ident">V</span>: <span class="ident">Visit</span><span class="op">&lt;</span><span class="lifetime">&#39;ast</span><span class="op">&gt;</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">_visitor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">V</span>, <span class="ident">_i</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;ast</span> <span class="ident">UsePath</span>) {
     <span class="ident">_visitor</span>.<span class="ident">visit_ident</span>(<span class="kw-2">&amp;</span><span class="ident">_i</span>.<span class="ident">ident</span>);
     <span class="ident">tokens_helper</span>(<span class="ident">_visitor</span>, <span class="kw-2">&amp;</span><span class="ident">_i</span>.<span class="ident">colon2_token</span>.<span class="ident">spans</span>);
     <span class="ident">_visitor</span>.<span class="ident">visit_use_tree</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">_i</span>.<span class="ident">tree</span>);
