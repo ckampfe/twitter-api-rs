@@ -5,7 +5,7 @@ alternatives that get peeked. If you are producing your own error message,
 go ahead and use <code>ParseStream::peek</code> instead.</p>
 <p>Use <a href="struct.ParseBuffer.html#method.lookahead1"><code>ParseStream::lookahead1</code></a> to construct this object.</p>
 <h1 id="example" class="section-header"><a href="#example">Example</a></h1>
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">syn</span>;
 
@@ -42,7 +42,7 @@ go ahead and use <code>ParseStream::peek</code> instead.</p>
             <span class="prelude-val">Err</span>(<span class="ident">lookahead</span>.<span class="ident">error</span>())
         }
     }
-}</pre>
+}</pre></div>
 </div><h2 id='methods' class='small-section-header'>Methods<a href='#methods' class='anchor'></a></h2><h3 id='impl' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;'a&gt; <a class="struct" href="../../syn/parse/struct.Lookahead1.html" title="struct syn::parse::Lookahead1">Lookahead1</a>&lt;'a&gt;</code><a href='#impl' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syn/lookahead.rs.html#91-139' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><div class='impl-items'><h4 id='method.peek' class="method"><span id='peek.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.peek' class='fnname'>peek</a>&lt;T:&nbsp;<a class="trait" href="../../syn/parse/trait.Peek.html" title="trait syn::parse::Peek">Peek</a>&gt;(&amp;self, token: T) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/syn/lookahead.rs.html#105-108' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Looks at the next token in the parse stream to determine whether it
 matches the requested type of token.</p>
 <h1 id="syntax" class="section-header"><a href="#syntax">Syntax</a></h1>
