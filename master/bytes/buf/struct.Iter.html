@@ -3,7 +3,7 @@
 <h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
 <p>Basic usage:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">bytes</span>::{<span class="ident">Buf</span>, <span class="ident">IntoBuf</span>, <span class="ident">Bytes</span>};
 
 <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Bytes</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;abc&quot;</span>[..]).<span class="ident">into_buf</span>();
@@ -12,10 +12,10 @@
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="string">b&#39;a&#39;</span>));
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="string">b&#39;b&#39;</span>));
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="string">b&#39;c&#39;</span>));
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">None</span>);</pre></div>
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">None</span>);</pre>
 </div><h2 id='methods' class='small-section-header'>Methods<a href='#methods' class='anchor'></a></h2><h3 id='impl' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;T&gt; <a class="struct" href="../../bytes/buf/struct.Iter.html" title="struct bytes::buf::Iter">Iter</a>&lt;T&gt;</code><a href='#impl' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/bytes/buf/iter.rs.html#30-91' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><div class='impl-items'><h4 id='method.into_inner' class="method"><span id='into_inner.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.into_inner' class='fnname'>into_inner</a>(self) -&gt; T</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/bytes/buf/iter.rs.html#46-48' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Consumes this <code>Iter</code>, returning the underlying value.</p>
 <h1 id="examples-1" class="section-header"><a href="#examples-1">Examples</a></h1>
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">bytes</span>::{<span class="ident">Buf</span>, <span class="ident">IntoBuf</span>, <span class="ident">Bytes</span>};
 
 <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Bytes</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;abc&quot;</span>[..]).<span class="ident">into_buf</span>();
@@ -24,11 +24,11 @@
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="string">b&#39;a&#39;</span>));
 
 <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">into_inner</span>();
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">2</span>, <span class="ident">buf</span>.<span class="ident">remaining</span>());</pre></div>
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">2</span>, <span class="ident">buf</span>.<span class="ident">remaining</span>());</pre>
 </div><h4 id='method.get_ref' class="method"><span id='get_ref.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.get_ref' class='fnname'>get_ref</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/bytes/buf/iter.rs.html#66-68' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Gets a reference to the underlying <code>Buf</code>.</p>
 <p>It is inadvisable to directly read from the underlying <code>Buf</code>.</p>
 <h1 id="examples-2" class="section-header"><a href="#examples-2">Examples</a></h1>
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">bytes</span>::{<span class="ident">Buf</span>, <span class="ident">IntoBuf</span>, <span class="ident">Bytes</span>};
 
 <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Bytes</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;abc&quot;</span>[..]).<span class="ident">into_buf</span>();
@@ -36,11 +36,11 @@
 
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="string">b&#39;a&#39;</span>));
 
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">2</span>, <span class="ident">iter</span>.<span class="ident">get_ref</span>().<span class="ident">remaining</span>());</pre></div>
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">2</span>, <span class="ident">iter</span>.<span class="ident">get_ref</span>().<span class="ident">remaining</span>());</pre>
 </div><h4 id='method.get_mut' class="method"><span id='get_mut.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.get_mut' class='fnname'>get_mut</a>(&amp;mut self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>T</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/bytes/buf/iter.rs.html#88-90' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Gets a mutable reference to the underlying <code>Buf</code>.</p>
 <p>It is inadvisable to directly read from the underlying <code>Buf</code>.</p>
 <h1 id="examples-3" class="section-header"><a href="#examples-3">Examples</a></h1>
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">bytes</span>::{<span class="ident">Buf</span>, <span class="ident">IntoBuf</span>, <span class="ident">BytesMut</span>};
 
 <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="string">b&quot;abc&quot;</span>[..]).<span class="ident">into_buf</span>();
@@ -50,7 +50,7 @@
 
 <span class="ident">iter</span>.<span class="ident">get_mut</span>().<span class="ident">set_position</span>(<span class="number">0</span>);
 
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="string">b&#39;a&#39;</span>));</pre></div>
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="string">b&#39;a&#39;</span>));</pre>
 </div></div><h2 id='implementations' class='small-section-header'>Trait Implementations<a href='#implementations' class='anchor'></a></h2><div id='implementations-list'><h3 id='impl-Iterator' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;T:&nbsp;<a class="trait" href="../../bytes/buf/trait.Buf.html" title="trait bytes::buf::Buf">Buf</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/iterator/trait.Iterator.html" title="trait core::iter::iterator::Iterator">Iterator</a> for <a class="struct" href="../../bytes/buf/struct.Iter.html" title="struct bytes::buf::Iter">Iter</a>&lt;T&gt;</code><a href='#impl-Iterator' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/bytes/buf/iter.rs.html#97-114' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><div class='impl-items'><h4 id='associatedtype.Item' class="type"><span id='Item.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/iter/iterator/trait.Iterator.html#associatedtype.Item' class="type">Item</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a></code></span></h4>
 <div class='docblock'><p>The type of the elements being iterated over.</p>
 </div><h4 id='method.next' class="method"><span id='next.v' class='invisible'><table class='table-display'><tbody><tr><td><code>fn <a href='https://doc.rust-lang.org/nightly/core/iter/iterator/trait.Iterator.html#tymethod.next' class='fnname'>next</a>(&amp;mut self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/bytes/buf/iter.rs.html#100-108' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Advances the iterator and returns the next value. <a href="https://doc.rust-lang.org/nightly/core/iter/iterator/trait.Iterator.html#tymethod.next">Read more</a></p>

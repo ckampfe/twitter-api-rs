@@ -17,7 +17,7 @@ are of lower quality than the high bits.</p>
 difficult. All the primitive integer types satisfy this property, and the
 float types normally satisfy it, but rounding may mean <code>high</code> can occur.</p>
 <h1 id="example" class="section-header"><a href="#example">Example</a></h1>
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">distributions</span>::{<span class="ident">Distribution</span>, <span class="ident">Uniform</span>};
 
 <span class="kw">fn</span> <span class="ident">main</span>() {
@@ -28,7 +28,7 @@ float types normally satisfy it, but rounding may mean <code>high</code> can occ
         <span class="ident">sum</span> <span class="op">+=</span> <span class="ident">between</span>.<span class="ident">sample</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">rng</span>);
     }
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">sum</span>);
-}</pre></div>
+}</pre>
 </div><h2 id='methods' class='small-section-header'>Methods<a href='#methods' class='anchor'></a></h2><h3 id='impl' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;X:&nbsp;<a class="trait" href="../../rand/distributions/uniform/trait.SampleUniform.html" title="trait rand::distributions::uniform::SampleUniform">SampleUniform</a>&gt; <a class="struct" href="../../rand/distributions/uniform/struct.Uniform.html" title="struct rand::distributions::uniform::Uniform">Uniform</a>&lt;X&gt;</code><a href='#impl' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rand/distributions/uniform.rs.html#155-167' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.new' class='fnname'>new</a>(low: X, high: X) -&gt; <a class="struct" href="../../rand/distributions/uniform/struct.Uniform.html" title="struct rand::distributions::uniform::Uniform">Uniform</a>&lt;X&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rand/distributions/uniform.rs.html#158-160' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Create a new <code>Uniform</code> instance which samples uniformly from the half
 open range <code>[low, high)</code> (excluding <code>high</code>). Panics if <code>low &gt;= high</code>.</p>
 </div><h4 id='method.new_inclusive' class="method"><span id='new_inclusive.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.new_inclusive' class='fnname'>new_inclusive</a>(low: X, high: X) -&gt; <a class="struct" href="../../rand/distributions/uniform/struct.Uniform.html" title="struct rand::distributions::uniform::Uniform">Uniform</a>&lt;X&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rand/distributions/uniform.rs.html#164-166' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Create a new <code>Uniform</code> instance which samples uniformly from the closed

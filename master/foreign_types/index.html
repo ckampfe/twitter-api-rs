@@ -8,7 +8,7 @@ dual-type approach similar to APIs in the standard library such as <code>PathBuf
 <code>str</code>. One type represents an owned value and references to the other represent borrowed
 values.</p>
 <h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">foreign_types</span>::{<span class="ident">ForeignType</span>, <span class="ident">ForeignTypeRef</span>, <span class="ident">Opaque</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>};
 
@@ -67,10 +67,10 @@ values.</p>
     <span class="kw">fn</span> <span class="ident">deref_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">FooRef</span> {
         <span class="kw">unsafe</span> { <span class="ident">FooRef</span>::<span class="ident">from_ptr_mut</span>(<span class="self">self</span>.<span class="number">0</span>) }
     }
-}</pre></div>
+}</pre>
 <p>The <code>foreign_type!</code> macro can generate this boilerplate for you:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">foreign_types</span>;
 
@@ -92,13 +92,13 @@ values.</p>
     <span class="doccomment">/// A borrowed Foo.</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FooRef</span>;
 }
-</pre></div>
+</pre>
 <p>If <code>fn clone</code> is specified, then it must take <code>CType</code> as an argument and return a copy of it as <code>CType</code>.
 It will be used to implement <code>ToOwned</code> and <code>Clone</code>.</p>
 <p><code>#[derive(…)] is permitted before the lines with</code>pub struct<code>.</code>#[doc(hidden)]<code>before the</code>type CType<code>line will hide the</code>foreign_type!` implementations from documentation.</p>
 <p>Say we then have a separate type in our C API that contains a <code>FOO</code>:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="kw">mod</span> <span class="ident">foo_sys</span> {
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FOO</span> {}
     <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BAR</span> {}
@@ -108,12 +108,12 @@ It will be used to implement <code>ToOwned</code> and <code>Clone</code>.</p>
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">BAR_free</span>(<span class="ident">bar</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">BAR</span>);
         <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">BAR_get_foo</span>(<span class="ident">bar</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">BAR</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">FOO</span>;
     }
-}</pre></div>
+}</pre>
 <p>The documentation for the C library states that <code>BAR_get_foo</code> returns a reference into the <code>BAR</code>
 passed to it, which translates into a reference in Rust. It also says that we're allowed to
 modify the <code>FOO</code>, so we'll define a pair of accessor methods, one immutable and one mutable:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">foreign_types</span>;
 
@@ -158,7 +158,7 @@ modify the <code>FOO</code>, so we'll define a pair of accessor methods, one imm
         <span class="kw">unsafe</span> { <span class="ident">FooRef</span>::<span class="ident">from_ptr_mut</span>(<span class="ident">foo_sys</span>::<span class="ident">BAR_get_foo</span>(<span class="self">self</span>.<span class="ident">as_ptr</span>())) }
     }
 }
-</pre></div>
+</pre>
 </div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
                        <tr class=' module-item'>
