@@ -18,16 +18,16 @@ and clones can be made of it to get multiple references to the same
 thread pool.</p>
 <p>This is a shortcut for:</p>
 
-<pre class="rust rust-example-rendered">
-<span class="ident">Builder</span>::<span class="ident">new</span>().<span class="ident">pool_size</span>(<span class="ident">size</span>).<span class="ident">create</span>()</pre>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="ident">Builder</span>::<span class="ident">new</span>().<span class="ident">pool_size</span>(<span class="ident">size</span>).<span class="ident">create</span>()</pre></div>
 <h1 id="panics" class="section-header"><a href="#panics">Panics</a></h1>
 <p>Panics if <code>size == 0</code>.</p>
 </div><h4 id='method.new_num_cpus' class="method"><span id='new_num_cpus.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.new_num_cpus' class='fnname'>new_num_cpus</a>() -&gt; <a class="struct" href="../futures_cpupool/struct.CpuPool.html" title="struct futures_cpupool::CpuPool">CpuPool</a></code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/futures_cpupool/lib.rs.html#175-177' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Creates a new thread pool with a number of workers equal to the number
 of CPUs on the host.</p>
 <p>This is a shortcut for:</p>
 
-<pre class="rust rust-example-rendered">
-<span class="ident">Builder</span>::<span class="ident">new</span>().<span class="ident">create</span>()</pre>
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="ident">Builder</span>::<span class="ident">new</span>().<span class="ident">create</span>()</pre></div>
 </div><h4 id='method.spawn' class="method"><span id='spawn.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.spawn' class='fnname'>spawn</a>&lt;F&gt;(&amp;self, f: F) -&gt; <a class="struct" href="../futures_cpupool/struct.CpuFuture.html" title="struct futures_cpupool::CpuFuture">CpuFuture</a>&lt;F::<a class="type" href="../futures/future/trait.Future.html#associatedtype.Item" title="type futures::future::Future::Item">Item</a>, F::<a class="type" href="../futures/future/trait.Future.html#associatedtype.Error" title="type futures::future::Future::Error">Error</a>&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="../futures/future/trait.Future.html" title="trait futures::future::Future">Future</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'static,<br>&nbsp;&nbsp;&nbsp;&nbsp;F::<a class="type" href="../futures/future/trait.Future.html#associatedtype.Item" title="type futures::future::Future::Item">Item</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'static,<br>&nbsp;&nbsp;&nbsp;&nbsp;F::<a class="type" href="../futures/future/trait.Future.html#associatedtype.Error" title="type futures::future::Future::Error">Error</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'static,&nbsp;</span></code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/futures_cpupool/lib.rs.html#199-216' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Spawns a future to run on this thread pool, returning a future
 representing the produced value.</p>
 <p>This function will execute the future <code>f</code> on the associated thread

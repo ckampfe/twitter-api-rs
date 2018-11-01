@@ -9,7 +9,7 @@ null. Scoped thread local storage is useful when a value is present for a known
 period of time and it is not required to relinquish ownership of the
 contents.</p>
 <h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">scoped_tls</span>;
 
@@ -24,7 +24,7 @@ contents.</p>
     <span class="ident">FOO</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">slot</span><span class="op">|</span> {
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">slot</span>, <span class="number">1</span>);
     });
-});</pre>
+});</pre></div>
 </div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
                        <tr class=' module-item'>

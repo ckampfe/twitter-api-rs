@@ -29,7 +29,7 @@ partially overlapping periods.</p>
 <code>SeedableRng</code> for RNGs with such large seeds, the newtype pattern can be
 used:</p>
 
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">rand_core</span>::<span class="ident">SeedableRng</span>;
 
 <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">64</span>;
@@ -54,7 +54,7 @@ used:</p>
     <span class="kw">fn</span> <span class="ident">from_seed</span>(<span class="ident">seed</span>: <span class="ident">MyRngSeed</span>) <span class="op">-&gt;</span> <span class="ident">MyRng</span> {
         <span class="ident">MyRng</span>(<span class="ident">seed</span>)
     }
-}</pre>
+}</pre></div>
 </div></div>
             <h2 id='required-methods' class='small-section-header'>
               Required Methods<a href='#required-methods' class='anchor'></a>

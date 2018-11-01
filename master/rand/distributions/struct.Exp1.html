@@ -6,12 +6,12 @@ sampling with <code>-rng.gen::&lt;f64&gt;().ln()</code>, but faster.</p>
 description in the paper was adjusted to use tables for the exponential
 distribution rather than normal.</p>
 <h1 id="example" class="section-header"><a href="#example">Example</a></h1>
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">rand</span>::<span class="ident">distributions</span>::<span class="ident">Exp1</span>;
 
 <span class="kw">let</span> <span class="ident">val</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="ident">SmallRng</span>::<span class="ident">from_entropy</span>().<span class="ident">sample</span>(<span class="ident">Exp1</span>);
-<span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">val</span>);</pre>
+<span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">val</span>);</pre></div>
 <div class="footnotes"><hr><ol><li id="fn1">
 <p>Jurgen A. Doornik (2005). <a href="https://www.doornik.com/research/ziggurat.pdf"><em>An Improved Ziggurat Method to
 Generate Normal Random Samples</em></a>.
