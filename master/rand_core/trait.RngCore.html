@@ -41,7 +41,7 @@ External / hardware RNGs can choose to implement <code>Default</code>.</li>
 <h1 id="example" class="section-header"><a href="#example">Example</a></h1>
 <p>A simple example, obviously not generating very <em>random</em> output:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
 <span class="kw">use</span> <span class="ident">rand_core</span>::{<span class="ident">RngCore</span>, <span class="ident">Error</span>, <span class="ident">impls</span>};
  
@@ -64,7 +64,7 @@ External / hardware RNGs can choose to implement <code>Default</code>.</li>
     <span class="kw">fn</span> <span class="ident">try_fill_bytes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dest</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">fill_bytes</span>(<span class="ident">dest</span>))
     }
-}</pre></div>
+}</pre>
 </div>
             <h2 id='required-methods' class='small-section-header'>
               Required Methods<a href='#required-methods' class='anchor'></a>

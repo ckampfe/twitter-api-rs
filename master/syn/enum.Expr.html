@@ -46,7 +46,7 @@ feature.</em></p>
 <p>This type is a syntax tree enum. In Syn this and other syntax tree enums
 are designed to be traversed using the following rebinding idiom.</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">expr</span>: <span class="ident">Expr</span> <span class="op">=</span> <span class="comment">/* ... */</span>;
 <span class="kw">match</span> <span class="ident">expr</span> {
     <span class="ident">Expr</span>::<span class="ident">MethodCall</span>(<span class="ident">expr</span>) <span class="op">=&gt;</span> {
@@ -59,7 +59,7 @@ are designed to be traversed using the following rebinding idiom.</p>
         <span class="comment">/* ... */</span>
     }
     <span class="comment">/* ... */</span>
-}</pre></div>
+}</pre>
 <p>We begin with a variable <code>expr</code> of type <code>Expr</code> that has no fields
 (because it is an enum), and by matching on it and rebinding a variable
 with the same name <code>expr</code> we effectively imbue our variable with all of
@@ -69,20 +69,20 @@ example above if we ended up in the <code>MethodCall</code> case then we get to 
 to use <code>expr.cond</code>, <code>expr.then_branch</code>, <code>expr.else_branch</code>.</p>
 <p>The pattern is similar if the input expression is borrowed:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">expr</span> {
-    <span class="ident">Expr</span>::<span class="ident">MethodCall</span>(<span class="kw-2">ref</span> <span class="ident">expr</span>) <span class="op">=&gt;</span> {</pre></div>
+    <span class="ident">Expr</span>::<span class="ident">MethodCall</span>(<span class="kw-2">ref</span> <span class="ident">expr</span>) <span class="op">=&gt;</span> {</pre>
 <p>This approach avoids repeating the variant names twice on every line.</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="ident">Expr</span>::<span class="ident">MethodCall</span>(<span class="ident">ExprMethodCall</span> { <span class="ident">method</span>, <span class="ident">args</span>, .. }) <span class="op">=&gt;</span> { <span class="comment">// repetitive</span></pre></div>
+<pre class="rust rust-example-rendered">
+<span class="ident">Expr</span>::<span class="ident">MethodCall</span>(<span class="ident">ExprMethodCall</span> { <span class="ident">method</span>, <span class="ident">args</span>, .. }) <span class="op">=&gt;</span> { <span class="comment">// repetitive</span></pre>
 <p>In general, the name to which a syntax tree enum variant is bound should
 be a suitable name for the complete syntax tree enum type.</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="comment">// Binding is called `base` which is the name I would use if I were</span>
 <span class="comment">// assigning `*discriminant.base` without an `if let`.</span>
-<span class="kw">if</span> <span class="kw">let</span> <span class="ident">Expr</span>::<span class="ident">Tuple</span>(<span class="kw-2">ref</span> <span class="ident">base</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">discriminant</span>.<span class="ident">base</span> {</pre></div>
+<span class="kw">if</span> <span class="kw">let</span> <span class="ident">Expr</span>::<span class="ident">Tuple</span>(<span class="kw-2">ref</span> <span class="ident">base</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">discriminant</span>.<span class="ident">base</span> {</pre>
 <p>A sign that you may not be choosing the right variable names is if you
 see names getting repeated in your code, like accessing
 <code>receiver.receiver</code> or <code>pat.pat</code> or <code>cond.cond</code>.</p>

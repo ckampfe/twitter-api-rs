@@ -2,7 +2,7 @@
 <p>Some of the funcationality of the crate makes no sense when used along with structs that
 are not <code>#[repr(C, packed)]</code>, but it is up to the user to make sure that they are.</p>
 <h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
-<div class="example-wrap"><pre class="rust rust-example-rendered">
+<pre class="rust rust-example-rendered">
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">memoffset</span>;
 
@@ -16,10 +16,10 @@ are not <code>#[repr(C, packed)]</code>, but it is up to the user to make sure t
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">offset_of</span><span class="macro">!</span>(<span class="ident">HelpMeIAmTrappedInAStructFactory</span>, <span class="ident">a</span>), <span class="number">15</span>);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">span_of</span><span class="macro">!</span>(<span class="ident">HelpMeIAmTrappedInAStructFactory</span>, <span class="ident">a</span>), <span class="number">15</span>..<span class="number">19</span>);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">span_of</span><span class="macro">!</span>(<span class="ident">HelpMeIAmTrappedInAStructFactory</span>, <span class="ident">help_me_before_they_</span>[<span class="number">2</span>] .. <span class="ident">a</span>), <span class="number">2</span>..<span class="number">15</span>);
-}</pre></div>
+}</pre>
 <p>This functionality can be useful, for example, for checksum calculations:</p>
 
-<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>, <span class="ident">packed</span>)]</span>
 <span class="kw">struct</span> <span class="ident">Message</span> {
     <span class="ident">header</span>: <span class="ident">MessageHeader</span>,
@@ -30,7 +30,7 @@ are not <code>#[repr(C, packed)]</code>, but it is up to the user to make sure t
 }
 
 <span class="kw">let</span> <span class="ident">checksum_range</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">raw</span>[<span class="macro">span_of</span><span class="macro">!</span>(<span class="ident">Message</span>, <span class="ident">header</span>..<span class="ident">checksum</span>)];
-<span class="kw">let</span> <span class="ident">checksum</span> <span class="op">=</span> <span class="ident">crc16</span>(<span class="ident">checksum_range</span>);</pre></div>
+<span class="kw">let</span> <span class="ident">checksum</span> <span class="op">=</span> <span class="ident">crc16</span>(<span class="ident">checksum_range</span>);</pre>
 </div><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
                        <tr class=' module-item'>
