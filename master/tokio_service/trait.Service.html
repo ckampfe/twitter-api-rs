@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `Service` trait in crate `tokio_service`."><meta name="keywords" content="rust, rustlang, rust-lang, Service"><title>tokio_service::Service - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script></head><body class="rustdoc trait"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Trait Service</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#associated-types">Associated Types</a><div class="sidebar-links"><a href="#associatedtype.Request">Request</a><a href="#associatedtype.Response">Response</a><a href="#associatedtype.Error">Error</a><a href="#associatedtype.Future">Future</a></div><a class="sidebar-title" href="#required-methods">Required Methods</a><div class="sidebar-links"><a href="#tymethod.call">call</a></div><a class="sidebar-title" href="#foreign-impls">Implementations on Foreign Types</a><div class="sidebar-links"><a href="#impl-Service">Box&lt;S&gt;</a><a href="#impl-Service">Rc&lt;S&gt;</a><a href="#impl-Service">Arc&lt;S&gt;</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='index.html'>tokio_service</a></p><script>window.sidebarCurrent = {name: 'Service', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/tokio_service/lib.rs.html#140-156' title='goto source code'>[src]</a></span><span class='in-band'>Trait <a href='index.html'>tokio_service</a>::<wbr><a class="trait" href=''>Service</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><pre class='rust trait'>pub trait Service {
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `Service` trait in crate `tokio_service`."><meta name="keywords" content="rust, rustlang, rust-lang, Service"><title>tokio_service::Service - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script></head><body class="rustdoc trait"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><p class='location'>Trait Service</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#associated-types">Associated Types</a><div class="sidebar-links"><a href="#associatedtype.Request">Request</a><a href="#associatedtype.Response">Response</a><a href="#associatedtype.Error">Error</a><a href="#associatedtype.Future">Future</a></div><a class="sidebar-title" href="#required-methods">Required Methods</a><div class="sidebar-links"><a href="#tymethod.call">call</a></div><a class="sidebar-title" href="#foreign-impls">Implementations on Foreign Types</a><div class="sidebar-links"><a href="#impl-Service">Box&lt;S&gt;</a><a href="#impl-Service">Rc&lt;S&gt;</a><a href="#impl-Service">Arc&lt;S&gt;</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='index.html'>tokio_service</a></p><script>window.sidebarCurrent = {name: 'Service', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/tokio_service/lib.rs.html#140-156' title='goto source code'>[src]</a></span><span class='in-band'>Trait <a href='index.html'>tokio_service</a>::<wbr><a class="trait" href=''>Service</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><pre class='rust trait'>pub trait Service {
     type <a href='#associatedtype.Request' class="type">Request</a>;
     type <a href='#associatedtype.Response' class="type">Response</a>;
     type <a href='#associatedtype.Error' class="type">Error</a>;
@@ -23,7 +23,7 @@ server over the network are deserialized then passed as an argument to the
 server value. The returned response is sent back over the network.</p>
 <p>As an example, here is how an HTTP request is processed by a server:</p>
 
-<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
 <span class="kw">impl</span> <span class="ident">Service</span> <span class="kw">for</span> <span class="ident">HelloWorld</span> {
     <span class="kw">type</span> <span class="ident">Request</span> <span class="op">=</span> <span class="ident">http</span>::<span class="ident">Request</span>;
     <span class="kw">type</span> <span class="ident">Response</span> <span class="op">=</span> <span class="ident">http</span>::<span class="ident">Response</span>;
@@ -38,14 +38,14 @@ server value. The returned response is sent back over the network.</p>
         <span class="comment">// Return the response as an immediate future</span>
         <span class="ident">futures</span>::<span class="ident">finished</span>(<span class="ident">resp</span>).<span class="ident">boxed</span>()
     }
-}</pre>
+}</pre></div>
 <h1 id="client" class="section-header"><a href="#client">Client</a></h1>
 <p>A client consumes a service by using a <code>Service</code> value. The client may
 issue requests by invoking <code>call</code> and passing the request as an argument.
 It then receives the response by waiting for the returned future.</p>
 <p>As an example, here is how a Redis request would be issued:</p>
 
-<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
 <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">redis</span>::<span class="ident">Client</span>::<span class="ident">new</span>()
     .<span class="ident">connect</span>(<span class="string">&quot;127.0.0.1:6379&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>())
     .<span class="ident">unwrap</span>();
@@ -53,7 +53,7 @@ It then receives the response by waiting for the returned future.</p>
 <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">client</span>.<span class="ident">call</span>(<span class="ident">Cmd</span>::<span class="ident">set</span>(<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;this is the value of foo&quot;</span>));
 
 <span class="comment">// Wait for the future to resolve</span>
-<span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Redis response: {:?}&quot;</span>, <span class="ident">await</span>(<span class="ident">resp</span>));</pre>
+<span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;Redis response: {:?}&quot;</span>, <span class="ident">await</span>(<span class="ident">resp</span>));</pre></div>
 <h1 id="middleware" class="section-header"><a href="#middleware">Middleware</a></h1>
 <p>More often than not, all the pieces needed for writing robust, scalable
 network applications are the same no matter the underlying protocol. By
@@ -62,7 +62,7 @@ it is possible to write middleware that provide these pieces in a
 reusable way.</p>
 <p>For example, take timeouts as an example:</p>
 
-<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
 <span class="kw">use</span> <span class="ident">tokio</span>::<span class="ident">Service</span>;
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Future</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">time</span>::<span class="ident">Duration</span>;
@@ -106,7 +106,7 @@ reusable way.</p>
             .<span class="ident">boxed</span>()
     }
 }
-</pre>
+</pre></div>
 <p>The above timeout implementation is decoupled from the underlying protocol
 and is also decoupled from client or server concerns. In other words, the
 same timeout middleware could be used in either a client or a server.</p>
