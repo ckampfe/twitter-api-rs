@@ -40,7 +40,7 @@ notification when it would otherwise make progress.</p>
 <h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
 <p>A simple TCP echo server:</p>
 
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tokio_core</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tokio_io</span>;
@@ -85,7 +85,7 @@ notification when it would otherwise make progress.</p>
 
     <span class="comment">// Spin up the server on the event loop</span>
     <span class="ident">core</span>.<span class="ident">run</span>(<span class="ident">server</span>).<span class="ident">unwrap</span>();
-}</pre>
+}</pre></div>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
