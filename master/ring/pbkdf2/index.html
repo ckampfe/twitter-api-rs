@@ -4,7 +4,7 @@ against previously-derived outputs.</p>
 <p>PBKDF2 is specified in <a href="https://tools.ietf.org/html/rfc2898#section-5.2">RFC 2898 Section 5.2</a> with test vectors given in
 <a href="https://tools.ietf.org/html/rfc6070">RFC 6070</a>. See also <a href="http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-132.pdf">NIST Special Publication 800-132</a>.</p>
 <h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1><h2 id="password-database-example" class="section-header"><a href="#password-database-example">Password Database Example</a></h2>
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">ring</span>::{<span class="ident">digest</span>, <span class="ident">pbkdf2</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 
@@ -85,7 +85,7 @@ against previously-derived outputs.</p>
 
     <span class="comment">// An attempt to log in with the right password succeeds.</span>
     <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">db</span>.<span class="ident">verify_password</span>(<span class="string">&quot;alice&quot;</span>, <span class="string">&quot;@74d7]404j|W}6u&quot;</span>).<span class="ident">is_ok</span>());
-}</pre>
+}</pre></div>
 </div><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
                        <tr class=' module-item'>

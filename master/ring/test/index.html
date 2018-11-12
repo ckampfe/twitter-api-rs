@@ -27,7 +27,7 @@ and you can mix and match within the same file. The empty sequence of bytes
 can only be represented with the quoted string form (<code>&quot;&quot;</code>).</p>
 <p>Here's how you would consume the test data:</p>
 
-<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
 <span class="kw">use</span> <span class="ident">ring</span>::<span class="ident">test</span>;
 
 <span class="ident">test</span>::<span class="ident">from_file</span>(<span class="string">&quot;src/hmac_tests.txt&quot;</span>, <span class="op">|</span><span class="ident">section</span>, <span class="ident">test_case</span><span class="op">|</span> {
@@ -39,7 +39,7 @@ can only be represented with the quoted string form (<code>&quot;&quot;</code>).
     <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">test_case</span>.<span class="ident">consume_bytes</span>(<span class="string">&quot;Output&quot;</span>);
 
     <span class="comment">// Do the actual testing here</span>
-});</pre>
+});</pre></div>
 <p>Note that <code>consume_digest_alg</code> automatically maps the string &quot;SHA1&quot; to a
 reference to <code>digest::SHA1</code>, &quot;SHA256&quot; to <code>digest::SHA256</code>, etc.</p>
 <h2 id="output-when-a-test-fails" class="section-header"><a href="#output-when-a-test-fails">Output When a Test Fails</a></h2>
