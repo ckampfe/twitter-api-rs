@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/ring-0.13.3/src/rsa/bigint.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>bigint.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/ring-0.13.4/src/rsa/bigint.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>bigint.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1141,6 +1141,21 @@
 <span id="1141">1141</span>
 <span id="1142">1142</span>
 <span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright 2015-2016 Brian Smith.</span>
 <span class="comment">//</span>
@@ -1148,7 +1163,7 @@
 <span class="comment">// purpose with or without fee is hereby granted, provided that the above</span>
 <span class="comment">// copyright notice and this permission notice appear in all copies.</span>
 <span class="comment">//</span>
-<span class="comment">// THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND AND THE AUTHORS DISCLAIM ALL WARRANTIES</span>
+<span class="comment">// THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHORS DISCLAIM ALL WARRANTIES</span>
 <span class="comment">// WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF</span>
 <span class="comment">// MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY</span>
 <span class="comment">// SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES</span>
@@ -1184,7 +1199,7 @@
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">box_pointers</span>)]</span>
 
-<span class="kw">use</span> {<span class="ident">bits</span>, <span class="ident">bssl</span>, <span class="ident">c</span>, <span class="ident">error</span>, <span class="ident">limb</span>, <span class="ident">untrusted</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">bits</span>, <span class="ident">bssl</span>, <span class="ident">c</span>, <span class="ident">error</span>, <span class="ident">limb</span>, <span class="ident">untrusted</span>};
 <span class="kw">use</span> <span class="ident">arithmetic</span>::<span class="ident">montgomery</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">core</span>;
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
@@ -1196,11 +1211,7 @@
 
 <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">trait</span> <span class="ident">Prime</span> {}
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">IsOne</span> {
-    <span class="kw">fn</span> <span class="ident">is_one</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
-}
-
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Width</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
+<span class="kw">struct</span> <span class="ident">Width</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
     <span class="ident">num_limbs</span>: <span class="ident">usize</span>,
 
     <span class="doccomment">/// The modulus *m* that the width originated from.</span>
@@ -1356,6 +1367,8 @@
     <span class="comment">// ones that don&#39;t, we could use a shorter `R` value and use faster `Limb`</span>
     <span class="comment">// calculations instead of double-precision `u64` calculations.</span>
     <span class="ident">n0</span>: <span class="ident">N0</span>,
+
+    <span class="ident">oneRR</span>: <span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">RR</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">core</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Modulus</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">N</span><span class="op">&gt;</span> {
@@ -1411,19 +1424,31 @@
                 <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">limb</span>::<span class="ident">LIMB_BITS</span>, <span class="number">32</span>);
                 <span class="ident">n_mod_r</span> <span class="op">|=</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">n</span>[<span class="number">1</span>]) <span class="op">&lt;&lt;</span> <span class="number">32</span>;
             }
-            <span class="kw">unsafe</span> { <span class="ident">GFp_bn_neg_inv_mod_r_u64</span>(<span class="ident">n_mod_r</span>) }
+            <span class="ident">N0</span>::<span class="ident">from</span>(<span class="kw">unsafe</span> { <span class="ident">GFp_bn_neg_inv_mod_r_u64</span>(<span class="ident">n_mod_r</span>) })
+        };
+
+        <span class="kw">let</span> <span class="ident">oneRR</span> <span class="op">=</span> {
+            <span class="kw">let</span> <span class="ident">partial</span> <span class="op">=</span> <span class="ident">PartialModulus</span> {
+                <span class="ident">limbs</span>: <span class="kw-2">&amp;</span><span class="ident">n</span>.<span class="ident">limbs</span>,
+                <span class="ident">n0</span>: <span class="ident">n0</span>.<span class="ident">clone</span>(),
+                <span class="ident">m</span>: <span class="ident">PhantomData</span>,
+            };
+
+            <span class="ident">One</span>::<span class="ident">newRR</span>(<span class="kw-2">&amp;</span><span class="ident">partial</span>)
         };
 
         <span class="prelude-val">Ok</span>(<span class="ident">Modulus</span> {
             <span class="ident">limbs</span>: <span class="ident">n</span>,
-            <span class="ident">n0</span>: <span class="ident">n0_from_u64</span>(<span class="ident">n0</span>),
+            <span class="ident">n0</span>,
+            <span class="ident">oneRR</span>,
         })
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">width</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Width</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> { <span class="self">self</span>.<span class="ident">limbs</span>.<span class="ident">width</span>() }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">zero</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">zero</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span> {
         <span class="ident">Elem</span> {
             <span class="ident">limbs</span>: <span class="ident">BoxedLimbs</span>::<span class="ident">zero</span>(<span class="self">self</span>.<span class="ident">width</span>()),
             <span class="ident">encoding</span>: <span class="ident">PhantomData</span>,
@@ -1437,6 +1462,8 @@
         <span class="ident">r</span>.<span class="ident">limbs</span>[<span class="number">0</span>] <span class="op">=</span> <span class="number">1</span>;
         <span class="ident">r</span>
     }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">oneRR</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">RR</span><span class="op">&gt;</span> { <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">oneRR</span> }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_elem</span><span class="op">&lt;</span><span class="ident">L</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">l</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">L</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">Unencoded</span><span class="op">&gt;</span>
@@ -1453,13 +1480,34 @@
             <span class="ident">encoding</span>: <span class="ident">PhantomData</span>,
         }
     }
+
+    <span class="kw">fn</span> <span class="ident">as_partial</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">PartialModulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> {
+        <span class="ident">PartialModulus</span> {
+            <span class="ident">limbs</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">limbs</span>,
+            <span class="ident">n0</span>: <span class="self">self</span>.<span class="ident">n0</span>.<span class="ident">clone</span>(),
+            <span class="ident">m</span>: <span class="ident">PhantomData</span>,
+        }
+    }
 }
 
-<span class="doccomment">/// Allows writing generic algorithms that require constraining the result type</span>
-<span class="doccomment">/// of the multiplication.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ModMul</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">M</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">Output</span>;
-    <span class="kw">fn</span> <span class="ident">mod_mul</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">b</span>: <span class="ident">B</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">Output</span>;
+<span class="kw">struct</span> <span class="ident">PartialModulus</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">M</span><span class="op">&gt;</span> {
+    <span class="ident">limbs</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">limb</span>::<span class="ident">Limb</span>],
+    <span class="ident">n0</span>: <span class="ident">N0</span>,
+    <span class="ident">m</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">M</span><span class="op">&gt;</span> <span class="ident">PartialModulus</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">M</span><span class="op">&gt;</span> {
+    <span class="comment">// TODO: XXX Avoid duplication with `Modulus`.</span>
+    <span class="kw">fn</span> <span class="ident">zero</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">width</span> <span class="op">=</span> <span class="ident">Width</span> {
+            <span class="ident">num_limbs</span>: <span class="self">self</span>.<span class="ident">limbs</span>.<span class="ident">len</span>(),
+            <span class="ident">m</span>: <span class="ident">PhantomData</span>,
+        };
+        <span class="ident">Elem</span> {
+            <span class="ident">limbs</span>: <span class="ident">BoxedLimbs</span>::<span class="ident">zero</span>(<span class="ident">width</span>),
+            <span class="ident">encoding</span>: <span class="ident">PhantomData</span>,
+        }
+    }
 }
 
 <span class="doccomment">/// Elements of ℤ/mℤ for some modulus *m*.</span>
@@ -1541,29 +1589,22 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_modulus</span><span class="op">&lt;</span><span class="ident">MM</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">MM</span><span class="op">&gt;</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
         <span class="ident">Modulus</span>::<span class="ident">from_boxed_limbs</span>(<span class="ident">BoxedLimbs</span>::<span class="ident">minimal_width_from_unpadded</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">limbs</span>))
     }
-}
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> <span class="ident">IsOne</span> <span class="kw">for</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">Unencoded</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
     <span class="kw">fn</span> <span class="ident">is_one</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="ident">limb</span>::<span class="ident">limbs_equal_limb_constant_time</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">limbs</span>, <span class="number">1</span>) <span class="op">==</span>
             <span class="ident">limb</span>::<span class="ident">LimbMask</span>::<span class="ident">True</span>
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">AF</span>, <span class="ident">BF</span>, <span class="ident">M</span><span class="op">&gt;</span> <span class="ident">ModMul</span><span class="op">&lt;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">BF</span><span class="op">&gt;</span>, <span class="ident">M</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">AF</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">elem_mul</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">AF</span>, <span class="ident">BF</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">AF</span><span class="op">&gt;</span>, <span class="ident">b</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">BF</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>)
+                           <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="op">&lt;</span>(<span class="ident">AF</span>, <span class="ident">BF</span>) <span class="kw">as</span> <span class="ident">ProductEncoding</span><span class="op">&gt;</span>::<span class="ident">Output</span><span class="op">&gt;</span>
     <span class="kw">where</span> (<span class="ident">AF</span>, <span class="ident">BF</span>): <span class="ident">ProductEncoding</span>
 {
-    <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="op">&lt;</span>(<span class="ident">AF</span>, <span class="ident">BF</span>) <span class="kw">as</span> <span class="ident">ProductEncoding</span><span class="op">&gt;</span>::<span class="ident">Output</span><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">mod_mul</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">b</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">BF</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>)
-        <span class="op">-&gt;</span> <span class="op">&lt;</span><span class="self">Self</span> <span class="kw">as</span> <span class="ident">ModMul</span><span class="op">&lt;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">BF</span><span class="op">&gt;</span>, <span class="ident">M</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>
-    {
-        <span class="ident">elem_mul</span>(<span class="self">self</span>, <span class="ident">b</span>, <span class="ident">m</span>)
-    }
+    <span class="ident">elem_mul_</span>(<span class="ident">a</span>, <span class="ident">b</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>.<span class="ident">as_partial</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">elem_mul</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">AF</span>, <span class="ident">BF</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">AF</span><span class="op">&gt;</span>, <span class="kw-2">mut</span> <span class="ident">b</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">BF</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>)
+<span class="kw">fn</span> <span class="ident">elem_mul_</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">AF</span>, <span class="ident">BF</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">AF</span><span class="op">&gt;</span>, <span class="kw-2">mut</span> <span class="ident">b</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">BF</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">PartialModulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>)
         <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="op">&lt;</span>(<span class="ident">AF</span>, <span class="ident">BF</span>) <span class="kw">as</span> <span class="ident">ProductEncoding</span><span class="op">&gt;</span>::<span class="ident">Output</span><span class="op">&gt;</span>
         <span class="kw">where</span> (<span class="ident">AF</span>, <span class="ident">BF</span>): <span class="ident">ProductEncoding</span> {
     <span class="kw">unsafe</span> {
@@ -1574,6 +1615,13 @@
     <span class="ident">Elem</span> {
         <span class="ident">limbs</span>: <span class="ident">b</span>.<span class="ident">limbs</span>,
         <span class="ident">encoding</span>: <span class="ident">PhantomData</span>,
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">elem_mul_by_2</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">AF</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">AF</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">PartialModulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) {
+    <span class="kw">unsafe</span> {
+        <span class="ident">LIMBS_shl_mod</span>(<span class="ident">a</span>.<span class="ident">limbs</span>.<span class="ident">as_mut_ptr</span>(), <span class="ident">a</span>.<span class="ident">limbs</span>.<span class="ident">as_ptr</span>(),
+                      <span class="ident">m</span>.<span class="ident">limbs</span>.<span class="ident">as_ptr</span>(), <span class="ident">m</span>.<span class="ident">limbs</span>.<span class="ident">len</span>());
     }
 }
 
@@ -1611,7 +1659,7 @@
     <span class="prelude-val">Ok</span>(<span class="ident">r</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">elem_squared</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">a</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>)
+<span class="kw">fn</span> <span class="ident">elem_squared</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">a</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">PartialModulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>)
         <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="op">&lt;</span>(<span class="ident">E</span>, <span class="ident">E</span>) <span class="kw">as</span> <span class="ident">ProductEncoding</span><span class="op">&gt;</span>::<span class="ident">Output</span><span class="op">&gt;</span>
         <span class="kw">where</span> (<span class="ident">E</span>, <span class="ident">E</span>): <span class="ident">ProductEncoding</span> {
     <span class="kw">unsafe</span> {
@@ -1662,15 +1710,7 @@
 
 
 <span class="comment">// The value 1, Montgomery-encoded some number of times.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span>);
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">newR</span>(<span class="ident">oneRR</span>: <span class="kw-2">&amp;</span><span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">RR</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span> {
-        <span class="ident">One</span>(<span class="ident">oneRR</span>.<span class="number">0</span>.<span class="ident">clone</span>().<span class="ident">decode_once</span>(<span class="ident">m</span>))
-    }
-}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">RR</span><span class="op">&gt;</span> {
     <span class="comment">// Returns RR = = R**2 (mod n) where R = 2**r is the smallest power of</span>
@@ -1680,10 +1720,10 @@
     <span class="comment">// values, using `LIMB_BITS` here, rather than `N0_LIMBS_USED * LIMB_BITS`,</span>
     <span class="comment">// is correct because R**2 will still be a multiple of the latter as</span>
     <span class="comment">// `N0_LIMBS_USED` is either one or two.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">newRR</span>(<span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">RR</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">newRR</span>(<span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">PartialModulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">RR</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="ident">limb</span>::<span class="ident">LIMB_BITS</span>;
 
-        <span class="kw">let</span> <span class="ident">m_bits</span> <span class="op">=</span> <span class="ident">minimal_limbs_bit_length</span>(<span class="kw-2">&amp;</span><span class="ident">m</span>.<span class="ident">limbs</span>).<span class="ident">as_usize_bits</span>();
+        <span class="kw">let</span> <span class="ident">m_bits</span> <span class="op">=</span> <span class="ident">minimal_limbs_bit_length</span>(<span class="ident">m</span>.<span class="ident">limbs</span>).<span class="ident">as_usize_bits</span>();
 
         <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> (<span class="ident">m_bits</span> <span class="op">+</span> (<span class="ident">LIMB_BITS</span> <span class="op">-</span> <span class="number">1</span>)) <span class="op">/</span> <span class="ident">LIMB_BITS</span> <span class="op">*</span> <span class="ident">LIMB_BITS</span>;
 
@@ -1702,7 +1742,7 @@
         <span class="comment">// Montgomery form). Then compute</span>
         <span class="comment">// RR = R**2 == base**r == R**r == (2**r)**r (mod n).</span>
         <span class="comment">//</span>
-        <span class="comment">// Take advantage of the fact that `LIMBS_shl_mod` is faster than</span>
+        <span class="comment">// Take advantage of the fact that `elem_mul_by_2` is faster than</span>
         <span class="comment">// `elem_squared` by replacing some of the early squarings with shifts.</span>
         <span class="comment">// TODO: Benchmark shift vs. squaring performance to determine the</span>
         <span class="comment">// optimal value of `lg_base`.</span>
@@ -1710,12 +1750,8 @@
         <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">lg_base</span>.<span class="ident">count_ones</span>(), <span class="number">1</span>); <span class="comment">// Must 2**n for n &gt;= 0.</span>
         <span class="kw">let</span> <span class="ident">shifts</span> <span class="op">=</span> <span class="ident">r</span> <span class="op">-</span> <span class="ident">bit</span> <span class="op">+</span> <span class="ident">lg_base</span>;
         <span class="kw">let</span> <span class="ident">exponent</span> <span class="op">=</span> (<span class="ident">r</span> <span class="op">/</span> <span class="ident">lg_base</span>) <span class="kw">as</span> <span class="ident">u64</span>;
-        <span class="kw">let</span> <span class="ident">num_limbs</span> <span class="op">=</span> <span class="ident">base</span>.<span class="ident">limbs</span>.<span class="ident">len</span>();
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">shifts</span> {
-            <span class="kw">unsafe</span> {
-                <span class="ident">LIMBS_shl_mod</span>(<span class="ident">base</span>.<span class="ident">limbs</span>.<span class="ident">as_mut_ptr</span>(), <span class="ident">base</span>.<span class="ident">limbs</span>.<span class="ident">as_ptr</span>(),
-                              <span class="ident">m</span>.<span class="ident">limbs</span>.<span class="ident">as_ptr</span>(), <span class="ident">num_limbs</span>);
-            }
+            <span class="ident">elem_mul_by_2</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">base</span>, <span class="ident">m</span>)
         }
         <span class="kw">let</span> <span class="ident">RR</span> <span class="op">=</span> <span class="ident">elem_exp_vartime_</span>(<span class="ident">base</span>, <span class="ident">exponent</span>, <span class="ident">m</span>);
 
@@ -1723,13 +1759,6 @@
             <span class="ident">limbs</span>: <span class="ident">RR</span>.<span class="ident">limbs</span>,
             <span class="ident">encoding</span>: <span class="ident">PhantomData</span>, <span class="comment">// PhantomData&lt;RR&gt;</span>
         })
-    }
-}
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">RRR</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">newRRR</span>(<span class="ident">oneRR</span>: <span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">RR</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">RRR</span><span class="op">&gt;</span> {
-        <span class="ident">One</span>(<span class="ident">elem_squared</span>(<span class="ident">oneRR</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>))
     }
 }
 
@@ -1763,7 +1792,17 @@
                 }
             }
         })<span class="question-mark">?</span>;
+
+        <span class="comment">// Step 2 / Step b. NIST SP800-89 defers to FIPS 186-3, which requires</span>
+        <span class="comment">// `e &gt;= 65537`. We enforce this when signing, but are more flexible in</span>
+        <span class="comment">// verification, for compatibility. Only small public exponents are</span>
+        <span class="comment">// supported.</span>
         <span class="kw">if</span> <span class="ident">value</span> <span class="op">&amp;</span> <span class="number">1</span> <span class="op">!=</span> <span class="number">1</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">Unspecified</span>);
+        }
+        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">min_value</span> <span class="op">&amp;</span> <span class="number">1</span> <span class="op">==</span> <span class="number">1</span>);
+        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">min_value</span> <span class="op">&lt;=</span> <span class="ident">PUBLIC_EXPONENT_MAX_VALUE</span>);
+        <span class="kw">if</span> <span class="ident">min_value</span> <span class="op">&lt;</span> <span class="number">3</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">Unspecified</span>);
         }
         <span class="kw">if</span> <span class="ident">value</span> <span class="op">&lt;</span> <span class="ident">min_value</span> {
@@ -1772,6 +1811,7 @@
         <span class="kw">if</span> <span class="ident">value</span> <span class="op">&gt;</span> <span class="ident">PUBLIC_EXPONENT_MAX_VALUE</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">Unspecified</span>);
         }
+
         <span class="prelude-val">Ok</span>(<span class="ident">PublicExponent</span>(<span class="ident">value</span>))
     }
 }
@@ -1787,20 +1827,21 @@
 <span class="comment">// [1] https://www.imperialviolet.org/2012/03/16/rsae.html</span>
 <span class="comment">// [2] https://www.imperialviolet.org/2012/03/17/rsados.html</span>
 <span class="comment">// [3] https://msdn.microsoft.com/en-us/library/aa387685(VS.85).aspx</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PUBLIC_EXPONENT_MAX_VALUE</span>: <span class="ident">u64</span> <span class="op">=</span> (<span class="number">1u64</span> <span class="op">&lt;&lt;</span> <span class="number">33</span>) <span class="op">-</span> <span class="number">1</span>;
+<span class="kw">const</span> <span class="ident">PUBLIC_EXPONENT_MAX_VALUE</span>: <span class="ident">u64</span> <span class="op">=</span> (<span class="number">1u64</span> <span class="op">&lt;&lt;</span> <span class="number">33</span>) <span class="op">-</span> <span class="number">1</span>;
 
 <span class="doccomment">/// Calculates base**exponent (mod m).</span>
 <span class="comment">// TODO: The test coverage needs to be expanded, e.g. test with the largest</span>
 <span class="comment">// accepted exponent and with the most common values of 65537 and 3.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">elem_exp_vartime</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>(
-        <span class="ident">base</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">PublicExponent</span>(<span class="ident">exponent</span>): <span class="ident">PublicExponent</span>,
+        <span class="ident">base</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">Unencoded</span><span class="op">&gt;</span>, <span class="ident">PublicExponent</span>(<span class="ident">exponent</span>): <span class="ident">PublicExponent</span>,
         <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span> {
-    <span class="ident">elem_exp_vartime_</span>(<span class="ident">base</span>, <span class="ident">exponent</span>, <span class="ident">m</span>)
+    <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="ident">elem_mul</span>(<span class="ident">m</span>.<span class="ident">oneRR</span>().<span class="ident">as_ref</span>(), <span class="ident">base</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>);
+    <span class="ident">elem_exp_vartime_</span>(<span class="ident">base</span>, <span class="ident">exponent</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>.<span class="ident">as_partial</span>())
 }
 
 <span class="doccomment">/// Calculates base**exponent (mod m).</span>
 <span class="kw">fn</span> <span class="ident">elem_exp_vartime_</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>(
-    <span class="ident">base</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">exponent</span>: <span class="ident">u64</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>
+    <span class="ident">base</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">exponent</span>: <span class="ident">u64</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">PartialModulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>
 {
     <span class="comment">// Use what [Knuth] calls the &quot;S-and-X binary method&quot;, i.e. variable-time</span>
     <span class="comment">// square-and-multiply that scans the exponent from the most significant</span>
@@ -1830,7 +1871,7 @@
         <span class="ident">bit</span> <span class="op">&gt;&gt;=</span> <span class="number">1</span>;
         <span class="ident">acc</span> <span class="op">=</span> <span class="ident">elem_squared</span>(<span class="ident">acc</span>, <span class="ident">m</span>);
         <span class="kw">if</span> (<span class="ident">exponent</span> <span class="op">&amp;</span> <span class="ident">bit</span>) <span class="op">!=</span> <span class="number">0</span> {
-            <span class="ident">acc</span> <span class="op">=</span> <span class="ident">elem_mul</span>(<span class="kw-2">&amp;</span><span class="ident">base</span>, <span class="ident">acc</span>, <span class="ident">m</span>);
+            <span class="ident">acc</span> <span class="op">=</span> <span class="ident">elem_mul_</span>(<span class="kw-2">&amp;</span><span class="ident">base</span>, <span class="ident">acc</span>, <span class="ident">m</span>);
         }
     }
     <span class="ident">acc</span>
@@ -1881,16 +1922,20 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">elem_exp_consttime</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>(
-        <span class="ident">base</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">exponent</span>: <span class="kw-2">&amp;</span><span class="ident">PrivateExponent</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>, <span class="ident">oneR</span>: <span class="kw-2">&amp;</span><span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>,
-        <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">Unencoded</span><span class="op">&gt;</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
+        <span class="ident">base</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">exponent</span>: <span class="kw-2">&amp;</span><span class="ident">PrivateExponent</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>)
+        <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">Unencoded</span><span class="op">&gt;</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">Elem</span> {
         <span class="ident">limbs</span>: <span class="ident">base</span>.<span class="ident">limbs</span>,
         <span class="ident">encoding</span>: <span class="ident">PhantomData</span>,
     };
+    <span class="kw">let</span> <span class="ident">oneR</span> <span class="op">=</span> {
+        <span class="kw">let</span> <span class="ident">one</span> <span class="op">=</span> <span class="ident">m</span>.<span class="ident">one</span>();
+        <span class="ident">elem_mul</span>(<span class="ident">m</span>.<span class="ident">oneRR</span>().<span class="ident">as_ref</span>(), <span class="ident">one</span>, <span class="ident">m</span>)
+    };
     <span class="prelude-ty">Result</span>::<span class="ident">from</span>(<span class="kw">unsafe</span> {
         <span class="ident">GFp_BN_mod_exp_mont_consttime</span>(<span class="ident">r</span>.<span class="ident">limbs</span>.<span class="ident">as_mut_ptr</span>(), <span class="ident">r</span>.<span class="ident">limbs</span>.<span class="ident">as_ptr</span>(),
                                       <span class="ident">exponent</span>.<span class="ident">limbs</span>.<span class="ident">as_ptr</span>(),
-                                      <span class="ident">oneR</span>.<span class="number">0</span>.<span class="ident">limbs</span>.<span class="ident">as_ptr</span>(), <span class="ident">m</span>.<span class="ident">limbs</span>.<span class="ident">as_ptr</span>(),
+                                      <span class="ident">oneR</span>.<span class="ident">limbs</span>.<span class="ident">as_ptr</span>(), <span class="ident">m</span>.<span class="ident">limbs</span>.<span class="ident">as_ptr</span>(),
                                       <span class="ident">m</span>.<span class="ident">limbs</span>.<span class="ident">len</span>(), <span class="kw-2">&amp;</span><span class="ident">m</span>.<span class="ident">n0</span>)
     })<span class="question-mark">?</span>;
 
@@ -1913,19 +1958,17 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">elem_inverse_consttime</span><span class="op">&lt;</span><span class="ident">M</span>: <span class="ident">Prime</span><span class="op">&gt;</span>(
         <span class="ident">a</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>,
-        <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>,
-        <span class="ident">oneR</span>: <span class="kw-2">&amp;</span><span class="ident">One</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">Unencoded</span><span class="op">&gt;</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
-    <span class="ident">elem_exp_consttime</span>(<span class="ident">a</span>, <span class="kw-2">&amp;</span><span class="ident">PrivateExponent</span>::<span class="ident">for_flt</span>(<span class="kw-2">&amp;</span><span class="ident">m</span>), <span class="ident">oneR</span>, <span class="ident">m</span>)
+        <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">Unencoded</span><span class="op">&gt;</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
+    <span class="ident">elem_exp_consttime</span>(<span class="ident">a</span>, <span class="kw-2">&amp;</span><span class="ident">PrivateExponent</span>::<span class="ident">for_flt</span>(<span class="kw-2">&amp;</span><span class="ident">m</span>), <span class="ident">m</span>)
 }
 
 <span class="doccomment">/// Verified a == b**-1 (mod m), i.e. a**-1 == b (mod m).</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">verify_inverses_consttime</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">A</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">A</span>, <span class="ident">b</span>: <span class="ident">B</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>)
-    <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> <span class="kw">where</span>
-    <span class="ident">A</span>: <span class="ident">ModMul</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">M</span><span class="op">&gt;</span>,
-    <span class="op">&lt;</span><span class="ident">A</span> <span class="kw">as</span> <span class="ident">ModMul</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">M</span><span class="op">&gt;&gt;</span>::<span class="ident">Output</span>: <span class="ident">IsOne</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">verify_inverses_consttime</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">b</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">Unencoded</span><span class="op">&gt;</span>,
+                                    <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>)
+    <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span>
 {
-    <span class="kw">if</span> <span class="ident">a</span>.<span class="ident">mod_mul</span>(<span class="ident">b</span>, <span class="ident">m</span>).<span class="ident">is_one</span>() {
+    <span class="kw">if</span> <span class="ident">elem_mul</span>(<span class="ident">a</span>, <span class="ident">b</span>, <span class="ident">m</span>).<span class="ident">is_one</span>() {
         <span class="prelude-val">Ok</span>(())
     } <span class="kw">else</span> {
         <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">Unspecified</span>)
@@ -1935,7 +1978,6 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">test</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">elem_verify_equal_consttime</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span>, <span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">E</span><span class="op">&gt;</span>)
                                          <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
-    <span class="comment">// XXX: Not constant-time if the number of limbs in `a` and `b` differ.</span>
     <span class="ident">constant_time</span>::<span class="ident">verify_slices_are_equal</span>(<span class="ident">limb</span>::<span class="ident">limbs_as_bytes</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>.<span class="ident">limbs</span>),
                                            <span class="ident">limb</span>::<span class="ident">limbs_as_bytes</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>.<span class="ident">limbs</span>))
 }
@@ -1998,14 +2040,6 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>)]</span>
-<span class="kw">impl</span> <span class="ident">IsOne</span> <span class="kw">for</span> <span class="ident">Nonnegative</span> {
-    <span class="kw">fn</span> <span class="ident">is_one</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">limb</span>::<span class="ident">limbs_equal_limb_constant_time</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">limbs</span>, <span class="number">1</span>) <span class="op">==</span>
-            <span class="ident">limb</span>::<span class="ident">LimbMask</span>::<span class="ident">True</span>
-    }
-}
-
 <span class="comment">// Returns the number of bits in `a` assuming that the top word of `a` is not</span>
 <span class="comment">// zero.</span>
 <span class="kw">fn</span> <span class="ident">minimal_limbs_bit_length</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span>[<span class="ident">limb</span>::<span class="ident">Limb</span>]) <span class="op">-&gt;</span> <span class="ident">bits</span>::<span class="ident">BitLength</span> {
@@ -2033,25 +2067,25 @@
     }
 }
 
-<span class="kw">type</span> <span class="ident">N0</span> <span class="op">=</span> [<span class="ident">limb</span>::<span class="ident">Limb</span>; <span class="ident">N0_LIMBS</span>];
-<span class="kw">const</span> <span class="ident">N0_LIMBS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span>;
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
+<span class="kw">struct</span> <span class="ident">N0</span>([<span class="ident">limb</span>::<span class="ident">Limb</span>; <span class="number">2</span>]);
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_pointer_width</span> <span class="op">=</span> <span class="string">&quot;64&quot;</span>)]</span>
-<span class="kw">const</span> <span class="ident">N0_LIMBS_USED</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1</span>;
+<span class="kw">const</span> <span class="ident">N0_LIMBS_USED</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">64</span> <span class="op">/</span> <span class="ident">limb</span>::<span class="ident">LIMB_BITS</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_pointer_width</span> <span class="op">=</span> <span class="string">&quot;64&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">n0_from_u64</span>(<span class="ident">n0</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">N0</span> {
-    [<span class="ident">n0</span>, <span class="number">0</span>]
-}
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">N0</span> {
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">n0</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_pointer_width</span> <span class="op">=</span> <span class="string">&quot;64&quot;</span>)]</span>
+        {
+            <span class="ident">N0</span>([<span class="ident">n0</span>, <span class="number">0</span>])
+        }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_pointer_width</span> <span class="op">=</span> <span class="string">&quot;32&quot;</span>)]</span>
-<span class="kw">const</span> <span class="ident">N0_LIMBS_USED</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span>;
-
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_pointer_width</span> <span class="op">=</span> <span class="string">&quot;32&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">n0_from_u64</span>(<span class="ident">n0</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="ident">N0</span> {
-    [<span class="ident">n0</span> <span class="kw">as</span> <span class="ident">limb</span>::<span class="ident">Limb</span>, (<span class="ident">n0</span> <span class="op">&gt;&gt;</span> <span class="ident">limb</span>::<span class="ident">LIMB_BITS</span>) <span class="kw">as</span> <span class="ident">limb</span>::<span class="ident">Limb</span>]
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_pointer_width</span> <span class="op">=</span> <span class="string">&quot;32&quot;</span>)]</span>
+        {
+            <span class="ident">N0</span>([<span class="ident">n0</span> <span class="kw">as</span> <span class="ident">limb</span>::<span class="ident">Limb</span>, (<span class="ident">n0</span> <span class="op">&gt;&gt;</span> <span class="ident">limb</span>::<span class="ident">LIMB_BITS</span>) <span class="kw">as</span> <span class="ident">limb</span>::<span class="ident">Limb</span>])
+        }
+    }
 }
 
 <span class="kw">extern</span> {
@@ -2095,7 +2129,7 @@
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="ident">untrusted</span>;
-    <span class="kw">use</span> <span class="ident">test</span>;
+    <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">test</span>;
 
     <span class="comment">// Type-level representation of an arbitrary modulus.</span>
     <span class="kw">struct</span> <span class="ident">M</span> {}
@@ -2116,9 +2150,7 @@
                     <span class="ident">untrusted</span>::<span class="ident">Input</span>::<span class="ident">from</span>(<span class="kw-2">&amp;</span><span class="ident">bytes</span>), <span class="kw-2">&amp;</span><span class="ident">m</span>).<span class="ident">expect</span>(<span class="string">&quot;valid exponent&quot;</span>)
             };
             <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="ident">into_encoded</span>(<span class="ident">base</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>);
-            <span class="kw">let</span> <span class="ident">oneRR</span> <span class="op">=</span> <span class="ident">One</span>::<span class="ident">newRR</span>(<span class="kw-2">&amp;</span><span class="ident">m</span>);
-            <span class="kw">let</span> <span class="ident">one</span> <span class="op">=</span> <span class="ident">One</span>::<span class="ident">newR</span>(<span class="kw-2">&amp;</span><span class="ident">oneRR</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>);
-            <span class="kw">let</span> <span class="ident">actual_result</span> <span class="op">=</span> <span class="ident">elem_exp_consttime</span>(<span class="ident">base</span>, <span class="kw-2">&amp;</span><span class="ident">e</span>, <span class="kw-2">&amp;</span><span class="ident">one</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>).<span class="ident">unwrap</span>();
+            <span class="kw">let</span> <span class="ident">actual_result</span> <span class="op">=</span> <span class="ident">elem_exp_consttime</span>(<span class="ident">base</span>, <span class="kw-2">&amp;</span><span class="ident">e</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>).<span class="ident">unwrap</span>();
             <span class="ident">assert_elem_eq</span>(<span class="kw-2">&amp;</span><span class="ident">actual_result</span>, <span class="kw-2">&amp;</span><span class="ident">expected_result</span>);
 
             <span class="prelude-val">Ok</span>(())
@@ -2136,7 +2168,6 @@
             <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="ident">consume_elem</span>(<span class="ident">test_case</span>, <span class="string">&quot;A&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>);
             <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">consume_public_exponent</span>(<span class="ident">test_case</span>, <span class="string">&quot;E&quot;</span>);
 
-            <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="ident">into_encoded</span>(<span class="ident">base</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>);
             <span class="kw">let</span> <span class="ident">actual_result</span> <span class="op">=</span> <span class="ident">elem_exp_vartime</span>(<span class="ident">base</span>, <span class="ident">e</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>);
             <span class="kw">let</span> <span class="ident">actual_result</span> <span class="op">=</span> <span class="ident">actual_result</span>.<span class="ident">into_unencoded</span>(<span class="kw-2">&amp;</span><span class="ident">m</span>);
             <span class="ident">assert_elem_eq</span>(<span class="kw-2">&amp;</span><span class="ident">actual_result</span>, <span class="kw-2">&amp;</span><span class="ident">expected_result</span>);
@@ -2177,7 +2208,7 @@
             <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">consume_elem</span>(<span class="ident">test_case</span>, <span class="string">&quot;A&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>);
 
             <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">into_encoded</span>(<span class="ident">a</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>);
-            <span class="kw">let</span> <span class="ident">actual_result</span> <span class="op">=</span> <span class="ident">elem_squared</span>(<span class="ident">a</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>);
+            <span class="kw">let</span> <span class="ident">actual_result</span> <span class="op">=</span> <span class="ident">elem_squared</span>(<span class="ident">a</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>.<span class="ident">as_partial</span>());
             <span class="kw">let</span> <span class="ident">actual_result</span> <span class="op">=</span> <span class="ident">actual_result</span>.<span class="ident">into_unencoded</span>(<span class="kw-2">&amp;</span><span class="ident">m</span>);
             <span class="ident">assert_elem_eq</span>(<span class="kw-2">&amp;</span><span class="ident">actual_result</span>, <span class="kw-2">&amp;</span><span class="ident">expected_result</span>);
 
@@ -2202,7 +2233,7 @@
                 <span class="ident">test_case</span>, <span class="string">&quot;A&quot;</span>, <span class="ident">expected_result</span>.<span class="ident">limbs</span>.<span class="ident">len</span>() <span class="op">*</span> <span class="number">2</span>);
 
             <span class="kw">let</span> <span class="ident">actual_result</span> <span class="op">=</span> <span class="ident">elem_reduced</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>).<span class="ident">unwrap</span>();
-            <span class="kw">let</span> <span class="ident">oneRR</span> <span class="op">=</span> <span class="ident">One</span>::<span class="ident">newRR</span>(<span class="kw-2">&amp;</span><span class="ident">m</span>);
+            <span class="kw">let</span> <span class="ident">oneRR</span> <span class="op">=</span> <span class="ident">m</span>.<span class="ident">oneRR</span>();
             <span class="kw">let</span> <span class="ident">actual_result</span> <span class="op">=</span> <span class="ident">elem_mul</span>(<span class="ident">oneRR</span>.<span class="ident">as_ref</span>(), <span class="ident">actual_result</span>, <span class="kw-2">&amp;</span><span class="ident">m</span>);
             <span class="ident">assert_elem_eq</span>(<span class="kw-2">&amp;</span><span class="ident">actual_result</span>, <span class="kw-2">&amp;</span><span class="ident">expected_result</span>);
 
@@ -2281,8 +2312,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">into_encoded</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>(<span class="ident">a</span>: <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">Unencoded</span><span class="op">&gt;</span>, <span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Modulus</span><span class="op">&lt;</span><span class="ident">M</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">M</span>, <span class="ident">R</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">oneRR</span> <span class="op">=</span> <span class="ident">One</span>::<span class="ident">newRR</span>(<span class="kw-2">&amp;</span><span class="ident">m</span>);
-        <span class="ident">elem_mul</span>(<span class="kw-2">&amp;</span><span class="ident">oneRR</span>.<span class="ident">as_ref</span>(), <span class="ident">a</span>, <span class="ident">m</span>)
+        <span class="ident">elem_mul</span>(<span class="ident">m</span>.<span class="ident">oneRR</span>().<span class="ident">as_ref</span>(), <span class="ident">a</span>, <span class="ident">m</span>)
     }
 }
 </pre>
