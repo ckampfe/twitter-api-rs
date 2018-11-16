@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/ring-0.13.4/src/ec/suite_b/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/ring-0.13.5/src/ec/suite_b/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -218,10 +218,7 @@
 <span id="218">218</span>
 <span id="219">219</span>
 <span id="220">220</span>
-<span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-</pre><pre class="rust ">
+</pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright 2016 Brian Smith.</span>
 <span class="comment">//</span>
 <span class="comment">// Permission to use, copy, modify, and/or distribute this software for any</span>
@@ -238,11 +235,10 @@
 
 <span class="doccomment">//! Elliptic curve operations on P-256 &amp; P-384.</span>
 
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">ops</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">arithmetic</span>::<span class="ident">montgomery</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">der</span>, <span class="ident">ec</span>, <span class="ident">error</span>, <span class="ident">pkcs8</span>};
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">ops</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">untrusted</span>;
-
 
 <span class="comment">// NIST SP 800-56A Step 3: &quot;If q is an odd prime p, verify that</span>
 <span class="comment">// yQ**2 = xQ**3 + axQ + b in GF(p), where the arithmetic is performed modulo</span>
@@ -257,11 +253,10 @@
 <span class="comment">//     y**2 == (x**2 + a)*x + b  (mod q)</span>
 <span class="comment">//</span>
 <span class="kw">fn</span> <span class="ident">verify_affine_point_is_on_the_curve</span>(
-        <span class="ident">ops</span>: <span class="kw-2">&amp;</span><span class="ident">CommonOps</span>, (<span class="ident">x</span>, <span class="ident">y</span>): (<span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>))
-        <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
+    <span class="ident">ops</span>: <span class="kw-2">&amp;</span><span class="ident">CommonOps</span>, (<span class="ident">x</span>, <span class="ident">y</span>): (<span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>),
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
     <span class="ident">verify_affine_point_is_on_the_curve_scaled</span>(<span class="ident">ops</span>, (<span class="ident">x</span>, <span class="ident">y</span>), <span class="kw-2">&amp;</span><span class="ident">ops</span>.<span class="ident">a</span>, <span class="kw-2">&amp;</span><span class="ident">ops</span>.<span class="ident">b</span>)
 }
-
 
 <span class="comment">// Use `verify_affine_point_is_on_the_curve` instead of this function whenever</span>
 <span class="comment">// the affine coordinates are available or will become available. This function</span>
@@ -272,8 +267,9 @@
 <span class="comment">// verification.</span>
 <span class="comment">//</span>
 <span class="comment">// This function also verifies that the point is not at infinity.</span>
-<span class="kw">fn</span> <span class="ident">verify_jacobian_point_is_on_the_curve</span>(<span class="ident">ops</span>: <span class="kw-2">&amp;</span><span class="ident">CommonOps</span>, <span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">Point</span>)
-                                         <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">verify_jacobian_point_is_on_the_curve</span>(
+    <span class="ident">ops</span>: <span class="kw-2">&amp;</span><span class="ident">CommonOps</span>, <span class="ident">p</span>: <span class="kw-2">&amp;</span><span class="ident">Point</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="ident">ops</span>.<span class="ident">point_z</span>(<span class="ident">p</span>);
 
     <span class="comment">// Verify that the point is not at infinity.</span>
@@ -333,7 +329,6 @@
     <span class="prelude-val">Ok</span>(<span class="ident">z2</span>)
 }
 
-
 <span class="comment">// Handles the common logic of point-is-on-the-curve checks for both affine and</span>
 <span class="comment">// Jacobian cases.</span>
 <span class="comment">//</span>
@@ -360,8 +355,8 @@
 <span class="comment">// Elliptic Curve Cryptosystems&quot; by Johannes Blömer, Martin Otto, and</span>
 <span class="comment">// Jean-Pierre Seifert.</span>
 <span class="kw">fn</span> <span class="ident">verify_affine_point_is_on_the_curve_scaled</span>(
-        <span class="ident">ops</span>: <span class="kw-2">&amp;</span><span class="ident">CommonOps</span>, (<span class="ident">x</span>, <span class="ident">y</span>): (<span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>), <span class="ident">a_scaled</span>: <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
-        <span class="ident">b_scaled</span>: <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
+    <span class="ident">ops</span>: <span class="kw-2">&amp;</span><span class="ident">CommonOps</span>, (<span class="ident">x</span>, <span class="ident">y</span>): (<span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>), <span class="ident">a_scaled</span>: <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>, <span class="ident">b_scaled</span>: <span class="kw-2">&amp;</span><span class="ident">Elem</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">lhs</span> <span class="op">=</span> <span class="ident">ops</span>.<span class="ident">elem_squared</span>(<span class="ident">y</span>);
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rhs</span> <span class="op">=</span> <span class="ident">ops</span>.<span class="ident">elem_squared</span>(<span class="ident">x</span>);
@@ -377,52 +372,51 @@
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">key_pair_from_pkcs8</span>(
-    <span class="ident">curve</span>: <span class="kw-2">&amp;</span><span class="ident">ec</span>::<span class="ident">Curve</span>, <span class="ident">template</span>: <span class="kw-2">&amp;</span><span class="ident">pkcs8</span>::<span class="ident">Template</span>, <span class="ident">input</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>)
-    <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ec</span>::<span class="ident">KeyPair</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span>
-{
-    <span class="kw">let</span> (<span class="ident">ec_private_key</span>, <span class="kw">_</span>) <span class="op">=</span>
-        <span class="ident">pkcs8</span>::<span class="ident">unwrap_key</span>(<span class="ident">template</span>, <span class="ident">pkcs8</span>::<span class="ident">Version</span>::<span class="ident">V1Only</span>, <span class="ident">input</span>)<span class="question-mark">?</span>;
-    <span class="kw">let</span> (<span class="ident">private_key</span>, <span class="ident">public_key</span>) <span class="op">=</span> <span class="ident">ec_private_key</span>.<span class="ident">read_all</span>(
-        <span class="ident">error</span>::<span class="ident">Unspecified</span>, <span class="op">|</span><span class="ident">input</span><span class="op">|</span> {
-            <span class="comment">// https://tools.ietf.org/html/rfc5915#section-3</span>
-            <span class="ident">der</span>::<span class="ident">nested</span>(<span class="ident">input</span>, <span class="ident">der</span>::<span class="ident">Tag</span>::<span class="ident">Sequence</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span>, <span class="op">|</span><span class="ident">input</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">version</span> <span class="op">=</span> <span class="ident">der</span>::<span class="ident">small_nonnegative_integer</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
-                <span class="kw">if</span> <span class="ident">version</span> <span class="op">!=</span> <span class="number">1</span> {
+    <span class="ident">curve</span>: <span class="kw-2">&amp;</span><span class="ident">ec</span>::<span class="ident">Curve</span>, <span class="ident">template</span>: <span class="kw-2">&amp;</span><span class="ident">pkcs8</span>::<span class="ident">Template</span>, <span class="ident">input</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ec</span>::<span class="ident">KeyPair</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> (<span class="ident">ec_private_key</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">pkcs8</span>::<span class="ident">unwrap_key</span>(<span class="ident">template</span>, <span class="ident">pkcs8</span>::<span class="ident">Version</span>::<span class="ident">V1Only</span>, <span class="ident">input</span>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> (<span class="ident">private_key</span>, <span class="ident">public_key</span>) <span class="op">=</span> <span class="ident">ec_private_key</span>.<span class="ident">read_all</span>(<span class="ident">error</span>::<span class="ident">Unspecified</span>, <span class="op">|</span><span class="ident">input</span><span class="op">|</span> {
+        <span class="comment">// https://tools.ietf.org/html/rfc5915#section-3</span>
+        <span class="ident">der</span>::<span class="ident">nested</span>(<span class="ident">input</span>, <span class="ident">der</span>::<span class="ident">Tag</span>::<span class="ident">Sequence</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span>, <span class="op">|</span><span class="ident">input</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">version</span> <span class="op">=</span> <span class="ident">der</span>::<span class="ident">small_nonnegative_integer</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
+            <span class="kw">if</span> <span class="ident">version</span> <span class="op">!=</span> <span class="number">1</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">Unspecified</span>);
+            }
+
+            <span class="kw">let</span> <span class="ident">private_key</span> <span class="op">=</span> <span class="ident">der</span>::<span class="ident">expect_tag_and_get_value</span>(<span class="ident">input</span>, <span class="ident">der</span>::<span class="ident">Tag</span>::<span class="ident">OctetString</span>)<span class="question-mark">?</span>;
+
+            <span class="comment">// [0] parameters (optional).</span>
+            <span class="kw">if</span> <span class="ident">input</span>.<span class="ident">peek</span>(<span class="ident">der</span>::<span class="ident">Tag</span>::<span class="ident">ContextSpecificConstructed0</span> <span class="kw">as</span> <span class="ident">u8</span>) {
+                <span class="kw">let</span> <span class="ident">actual_alg_id</span> <span class="op">=</span>
+                    <span class="ident">der</span>::<span class="ident">expect_tag_and_get_value</span>(<span class="ident">input</span>, <span class="ident">der</span>::<span class="ident">Tag</span>::<span class="ident">ContextSpecificConstructed0</span>)<span class="question-mark">?</span>;
+                <span class="kw">if</span> <span class="ident">actual_alg_id</span> <span class="op">!=</span> <span class="ident">template</span>.<span class="ident">curve_oid</span>() {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">Unspecified</span>);
                 }
+            }
 
-                <span class="kw">let</span> <span class="ident">private_key</span> <span class="op">=</span>
-                    <span class="ident">der</span>::<span class="ident">expect_tag_and_get_value</span>(<span class="ident">input</span>, <span class="ident">der</span>::<span class="ident">Tag</span>::<span class="ident">OctetString</span>)<span class="question-mark">?</span>;
+            <span class="comment">// [1] publicKey. The RFC says it is optional, but we require it</span>
+            <span class="comment">// to be present.</span>
+            <span class="kw">let</span> <span class="ident">public_key</span> <span class="op">=</span> <span class="ident">der</span>::<span class="ident">nested</span>(
+                <span class="ident">input</span>,
+                <span class="ident">der</span>::<span class="ident">Tag</span>::<span class="ident">ContextSpecificConstructed1</span>,
+                <span class="ident">error</span>::<span class="ident">Unspecified</span>,
+                <span class="ident">der</span>::<span class="ident">bit_string_with_no_unused_bits</span>,
+            )<span class="question-mark">?</span>;
 
-                <span class="comment">// [0] parameters (optional).</span>
-                <span class="kw">if</span> <span class="ident">input</span>.<span class="ident">peek</span>(<span class="ident">der</span>::<span class="ident">Tag</span>::<span class="ident">ContextSpecificConstructed0</span> <span class="kw">as</span> <span class="ident">u8</span>) {
-                    <span class="kw">let</span> <span class="ident">actual_alg_id</span> <span class="op">=</span> <span class="ident">der</span>::<span class="ident">expect_tag_and_get_value</span>(
-                        <span class="ident">input</span>, <span class="ident">der</span>::<span class="ident">Tag</span>::<span class="ident">ContextSpecificConstructed0</span>)<span class="question-mark">?</span>;
-                    <span class="kw">if</span> <span class="ident">actual_alg_id</span> <span class="op">!=</span> <span class="ident">template</span>.<span class="ident">curve_oid</span>() {
-                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>::<span class="ident">Unspecified</span>);
-                    }
-                }
-
-                <span class="comment">// [1] publicKey. The RFC says it is optional, but we require it</span>
-                <span class="comment">// to be present.</span>
-                <span class="kw">let</span> <span class="ident">public_key</span> <span class="op">=</span> <span class="ident">der</span>::<span class="ident">nested</span>(
-                    <span class="ident">input</span>, <span class="ident">der</span>::<span class="ident">Tag</span>::<span class="ident">ContextSpecificConstructed1</span>,
-                    <span class="ident">error</span>::<span class="ident">Unspecified</span>, <span class="ident">der</span>::<span class="ident">bit_string_with_no_unused_bits</span>)<span class="question-mark">?</span>;
-
-                <span class="prelude-val">Ok</span>((<span class="ident">private_key</span>, <span class="ident">public_key</span>))
-            })
-        })<span class="question-mark">?</span>;
+            <span class="prelude-val">Ok</span>((<span class="ident">private_key</span>, <span class="ident">public_key</span>))
+        })
+    })<span class="question-mark">?</span>;
     <span class="ident">key_pair_from_bytes</span>(<span class="ident">curve</span>, <span class="ident">private_key</span>, <span class="ident">public_key</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">key_pair_from_bytes</span>(<span class="ident">curve</span>: <span class="kw-2">&amp;</span><span class="ident">ec</span>::<span class="ident">Curve</span>,
-                           <span class="ident">private_key_bytes</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
-                           <span class="ident">public_key_bytes</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>)
-                           <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ec</span>::<span class="ident">KeyPair</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">key_pair_from_bytes</span>(
+    <span class="ident">curve</span>: <span class="kw-2">&amp;</span><span class="ident">ec</span>::<span class="ident">Curve</span>, <span class="ident">private_key_bytes</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>, <span class="ident">public_key_bytes</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ec</span>::<span class="ident">KeyPair</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">private_key</span> <span class="op">=</span> <span class="ident">ec</span>::<span class="ident">PrivateKey</span>::<span class="ident">from_bytes</span>(<span class="ident">curve</span>, <span class="ident">private_key_bytes</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">public_key_check</span> <span class="op">=</span> [<span class="number">0</span>; <span class="ident">ec</span>::<span class="ident">PUBLIC_KEY_MAX_LEN</span>];
-    { <span class="comment">// Borrow `public_key_check`.</span>
+    {
+        <span class="comment">// Borrow `public_key_check`.</span>
         <span class="kw">let</span> <span class="ident">public_key_check</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">public_key_check</span>[..<span class="ident">curve</span>.<span class="ident">public_key_len</span>];
         (<span class="ident">curve</span>.<span class="ident">public_from_private</span>)(<span class="ident">public_key_check</span>, <span class="kw-2">&amp;</span><span class="ident">private_key</span>)<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="ident">public_key_bytes</span> <span class="op">!=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">public_key_check</span> {
@@ -431,19 +425,19 @@
     }
 
     <span class="prelude-val">Ok</span>(<span class="ident">ec</span>::<span class="ident">KeyPair</span> {
-        <span class="ident">private_key</span>: <span class="ident">private_key</span>,
+        <span class="ident">private_key</span>,
         <span class="ident">public_key</span>: <span class="ident">public_key_check</span>,
     })
 }
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">curve</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ecdsa</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ecdh</span>;
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">ecdsa</span>;
 
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">mod</span> <span class="ident">ops</span>;
 
 <span class="kw">mod</span> <span class="ident">private_key</span>;
 <span class="kw">mod</span> <span class="ident">public_key</span>;
-</pre>
+</pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../../../";window.currentCrate = "ring";</script><script src="../../../../aliases.js"></script><script src="../../../../main.js"></script><script defer src="../../../../search-index.js"></script></body></html>

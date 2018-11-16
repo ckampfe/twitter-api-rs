@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/ring-0.13.4/src/signature.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>signature.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/ring-0.13.5/src/signature.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>signature.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -439,21 +439,7 @@
 <span id="439">439</span>
 <span id="440">440</span>
 <span id="441">441</span>
-<span id="442">442</span>
-<span id="443">443</span>
-<span id="444">444</span>
-<span id="445">445</span>
-<span id="446">446</span>
-<span id="447">447</span>
-<span id="448">448</span>
-<span id="449">449</span>
-<span id="450">450</span>
-<span id="451">451</span>
-<span id="452">452</span>
-<span id="453">453</span>
-<span id="454">454</span>
-<span id="455">455</span>
-</pre><pre class="rust ">
+</pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright 2015-2017 Brian Smith.</span>
 <span class="comment">//</span>
 <span class="comment">// Permission to use, copy, modify, and/or distribute this software for any</span>
@@ -596,9 +582,7 @@
 <span class="doccomment">//! // Normally the application would store the PKCS#8 file persistently. Later</span>
 <span class="doccomment">//! // it would read the PKCS#8 file from persistent storage to use it.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! let key_pair =</span>
-<span class="doccomment">//!    signature::Ed25519KeyPair::from_pkcs8(</span>
-<span class="doccomment">//!             untrusted::Input::from(&amp;pkcs8_bytes))?;</span>
+<span class="doccomment">//! let key_pair = signature::Ed25519KeyPair::from_pkcs8(untrusted::Input::from(&amp;pkcs8_bytes))?;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // Sign the message &quot;hello, world&quot;.</span>
 <span class="doccomment">//! const MESSAGE: &amp;[u8] = b&quot;hello, world&quot;;</span>
@@ -734,10 +718,10 @@
 <span class="doccomment">//! # }</span>
 <span class="doccomment">//! ```</span>
 
-
 <span class="kw">use</span> <span class="ident">core</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_heap&quot;</span>)]</span>
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">rand</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error</span>, <span class="ident">init</span>, <span class="ident">private</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_heap&quot;</span>)]</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">rand</span>;
 <span class="kw">use</span> <span class="ident">untrusted</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_heap&quot;</span>)]</span>
@@ -745,30 +729,22 @@
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ec</span>::<span class="ident">suite_b</span>::<span class="ident">ecdsa</span>::{
     <span class="ident">signing</span>::{
-        <span class="ident">Key</span> <span class="kw">as</span> <span class="ident">ECDSAKeyPair</span>,
-        <span class="ident">ECDSA_P256_SHA256_ASN1_SIGNING</span>, <span class="ident">ECDSA_P256_SHA256_FIXED_SIGNING</span>,
+        <span class="ident">Key</span> <span class="kw">as</span> <span class="ident">ECDSAKeyPair</span>, <span class="ident">ECDSA_P256_SHA256_ASN1_SIGNING</span>, <span class="ident">ECDSA_P256_SHA256_FIXED_SIGNING</span>,
         <span class="ident">ECDSA_P384_SHA384_ASN1_SIGNING</span>, <span class="ident">ECDSA_P384_SHA384_FIXED_SIGNING</span>,
     },
-
     <span class="ident">verification</span>::{
-        <span class="ident">Algorithm</span> <span class="kw">as</span> <span class="ident">ECDSAVerification</span>,
-        <span class="ident">ECDSA_P256_SHA256_ASN1</span>, <span class="ident">ECDSA_P256_SHA256_FIXED</span>,
-        <span class="ident">ECDSA_P256_SHA384_ASN1</span>,
-        <span class="ident">ECDSA_P384_SHA256_ASN1</span>,
-        <span class="ident">ECDSA_P384_SHA384_ASN1</span>, <span class="ident">ECDSA_P384_SHA384_FIXED</span>,
+        <span class="ident">Algorithm</span> <span class="kw">as</span> <span class="ident">ECDSAVerification</span>, <span class="ident">ECDSA_P256_SHA256_ASN1</span>, <span class="ident">ECDSA_P256_SHA256_FIXED</span>,
+        <span class="ident">ECDSA_P256_SHA384_ASN1</span>, <span class="ident">ECDSA_P384_SHA256_ASN1</span>, <span class="ident">ECDSA_P384_SHA384_ASN1</span>,
+        <span class="ident">ECDSA_P384_SHA384_FIXED</span>,
     },
 };
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ec</span>::<span class="ident">curve25519</span>::<span class="ident">ed25519</span>::<span class="ident">PUBLIC_KEY_LEN</span> <span class="kw">as</span> <span class="ident">ED25519_PUBLIC_KEY_LEN</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ec</span>::<span class="ident">curve25519</span>::<span class="ident">ed25519</span>::<span class="ident">verification</span>::{
-    <span class="ident">EdDSAParameters</span>,
-    <span class="ident">ED25519</span>,
-};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ec</span>::<span class="ident">curve25519</span>::<span class="ident">ed25519</span>::<span class="ident">verification</span>::{<span class="ident">EdDSAParameters</span>, <span class="ident">ED25519</span>};
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ec</span>::<span class="ident">curve25519</span>::<span class="ident">ed25519</span>::<span class="ident">signing</span>::{
-    <span class="ident">KeyPair</span> <span class="kw">as</span> <span class="ident">Ed25519KeyPair</span>,
-    <span class="ident">PKCS8_V2_LEN</span> <span class="kw">as</span> <span class="ident">ED25519_PKCS8_V2_LEN</span>,
+    <span class="ident">KeyPair</span> <span class="kw">as</span> <span class="ident">Ed25519KeyPair</span>, <span class="ident">PKCS8_V2_LEN</span> <span class="kw">as</span> <span class="ident">ED25519_PKCS8_V2_LEN</span>,
 };
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rsa_signing&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_heap&quot;</span>))]</span>
@@ -796,16 +772,9 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_heap&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rsa</span>::<span class="ident">verification</span>::{
-    <span class="ident">RSA_PKCS1_2048_8192_SHA1</span>,
-    <span class="ident">RSA_PKCS1_2048_8192_SHA256</span>,
-    <span class="ident">RSA_PKCS1_2048_8192_SHA384</span>,
-    <span class="ident">RSA_PKCS1_2048_8192_SHA512</span>,
-
-    <span class="ident">RSA_PKCS1_3072_8192_SHA384</span>,
-
-    <span class="ident">RSA_PSS_2048_8192_SHA256</span>,
-    <span class="ident">RSA_PSS_2048_8192_SHA384</span>,
-    <span class="ident">RSA_PSS_2048_8192_SHA512</span>,
+    <span class="ident">RSA_PKCS1_2048_8192_SHA1</span>, <span class="ident">RSA_PKCS1_2048_8192_SHA256</span>, <span class="ident">RSA_PKCS1_2048_8192_SHA384</span>,
+    <span class="ident">RSA_PKCS1_2048_8192_SHA512</span>, <span class="ident">RSA_PKCS1_3072_8192_SHA384</span>, <span class="ident">RSA_PSS_2048_8192_SHA256</span>,
+    <span class="ident">RSA_PSS_2048_8192_SHA384</span>, <span class="ident">RSA_PSS_2048_8192_SHA512</span>,
 };
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">signature_impl</span>::<span class="ident">Signature</span>;
@@ -836,8 +805,9 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_heap&quot;</span>)]</span>
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">KeyPairImpl</span>: <span class="ident">core</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> {
-    <span class="kw">fn</span> <span class="ident">sign</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="ident">rand</span>::<span class="ident">SecureRandom</span>, <span class="ident">msg</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>)
-            <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Signature</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">sign</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="ident">rand</span>::<span class="ident">SecureRandom</span>, <span class="ident">msg</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Signature</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// An algorithm for signing.</span>
@@ -845,8 +815,7 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">SigningAlgorithm</span>: <span class="ident">core</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span> <span class="op">+</span> <span class="ident">private</span>::<span class="ident">Sealed</span> {
     <span class="doccomment">/// Parses the key out of the given PKCS#8 document, verifying that it is</span>
     <span class="doccomment">/// valid for the algorithm.</span>
-    <span class="kw">fn</span> <span class="ident">from_pkcs8</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>)
-        <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyPair</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">from_pkcs8</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyPair</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// Returns a key for signing that is parsed from a PKCS#8 document.</span>
@@ -854,18 +823,19 @@
 <span class="doccomment">/// The key is checked to ensure it is valid for the given algorithm.</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_heap&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">key_pair_from_pkcs8</span>(<span class="ident">alg</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">SigningAlgorithm</span>, <span class="ident">input</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>)
-    <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyPair</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span>
-{
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">key_pair_from_pkcs8</span>(
+    <span class="ident">alg</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">SigningAlgorithm</span>, <span class="ident">input</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">KeyPair</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
     <span class="ident">alg</span>.<span class="ident">from_pkcs8</span>(<span class="ident">input</span>)
 }
 
-<span class="doccomment">/// Returns a signature of the given data using the given key. The signing may or may</span>
-<span class="doccomment">/// not use `rng`, depending on the `key_pair&#39;s algorithm.</span>
+<span class="doccomment">/// Returns a signature of the given data using the given key. The signing may</span>
+<span class="doccomment">/// or may not use `rng`, depending on the `key_pair&#39;s algorithm.</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;use_heap&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sign</span>(<span class="ident">key_pair</span>: <span class="kw-2">&amp;</span><span class="ident">KeyPair</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="ident">rand</span>::<span class="ident">SecureRandom</span>, <span class="ident">msg</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>)
-            <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Signature</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sign</span>(
+    <span class="ident">key_pair</span>: <span class="kw-2">&amp;</span><span class="ident">KeyPair</span>, <span class="ident">rng</span>: <span class="kw-2">&amp;</span><span class="ident">rand</span>::<span class="ident">SecureRandom</span>, <span class="ident">msg</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Signature</span>, <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
     <span class="ident">key_pair</span>.<span class="ident">inner</span>.<span class="ident">sign</span>(<span class="ident">rng</span>, <span class="ident">msg</span>)
 }
 
@@ -873,8 +843,9 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">VerificationAlgorithm</span>: <span class="ident">core</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">private</span>::<span class="ident">Sealed</span> {
     <span class="doccomment">/// Verify the signature `signature` of message `msg` with the public key</span>
     <span class="doccomment">/// `public_key`.</span>
-    <span class="kw">fn</span> <span class="ident">verify</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">public_key</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>, <span class="ident">msg</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
-              <span class="ident">signature</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">verify</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">public_key</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>, <span class="ident">msg</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>, <span class="ident">signature</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// Verify the signature `signature` of message `msg` with the public key</span>
@@ -895,19 +866,20 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # #[cfg(feature = &quot;use_heap&quot;)]</span>
-<span class="doccomment">/// fn verify_rsa_pkcs1_sha256(public_key: untrusted::Input,</span>
-<span class="doccomment">///                            msg: untrusted::Input, sig: untrusted::Input)</span>
-<span class="doccomment">///                            -&gt; Result&lt;(), Error&gt; {</span>
-<span class="doccomment">///    signature::verify(&amp;signature::RSA_PKCS1_2048_8192_SHA256, public_key,</span>
-<span class="doccomment">///                      msg, sig).map_err(|_| Error::InvalidSignature)</span>
+<span class="doccomment">/// fn verify_rsa_pkcs1_sha256(</span>
+<span class="doccomment">///     public_key: untrusted::Input, msg: untrusted::Input, sig: untrusted::Input,</span>
+<span class="doccomment">/// ) -&gt; Result&lt;(), Error&gt; {</span>
+<span class="doccomment">///     signature::verify(&amp;signature::RSA_PKCS1_2048_8192_SHA256, public_key, msg, sig)</span>
+<span class="doccomment">///         .map_err(|_| Error::InvalidSignature)</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// # fn main() { }</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">verify</span>(<span class="ident">alg</span>: <span class="kw-2">&amp;</span><span class="ident">VerificationAlgorithm</span>, <span class="ident">public_key</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
-              <span class="ident">msg</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>, <span class="ident">signature</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>)
-              <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">verify</span>(
+    <span class="ident">alg</span>: <span class="kw-2">&amp;</span><span class="ident">VerificationAlgorithm</span>, <span class="ident">public_key</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>, <span class="ident">msg</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
+    <span class="ident">signature</span>: <span class="ident">untrusted</span>::<span class="ident">Input</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">error</span>::<span class="ident">Unspecified</span><span class="op">&gt;</span> {
     <span class="ident">init</span>::<span class="ident">init_once</span>();
     <span class="ident">alg</span>.<span class="ident">verify</span>(<span class="ident">public_key</span>, <span class="ident">msg</span>, <span class="ident">signature</span>)
 }
-</pre>
+</pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g. <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g. <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g. <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "ring";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
