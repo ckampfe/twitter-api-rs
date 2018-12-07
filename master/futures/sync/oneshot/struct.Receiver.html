@@ -12,7 +12,7 @@ can be used to determine whether a message was actually sent or not. If
 <code>Drop</code> impl.</p>
 <p>Does not schedule a task wakeup or have any other side effects.</p>
 <p>A return value of <code>None</code> must be considered immediately stale (out of
-date) unless <a href="../../../futures/sync/oneshot/struct.Receiver.html#method.close"><code>::close</code></a> has been called first.</p>
+date) unless <a href="Receiver::close"><code>::close</code></a> has been called first.</p>
 <p>Returns an error if the sender was dropped.</p>
 </div></div><h2 id='implementations' class='small-section-header'>Trait Implementations<a href='#implementations' class='anchor'></a></h2><div id='implementations-list'><h3 id='impl-Future' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;T&gt; <a class="trait" href="../../../futures/future/trait.Future.html" title="trait futures::future::Future">Future</a> for <a class="struct" href="../../../futures/sync/oneshot/struct.Receiver.html" title="struct futures::sync::oneshot::Receiver">Receiver</a>&lt;T&gt;</code><a href='#impl-Future' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/futures/sync/oneshot.rs.html#443-450' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><div class='impl-items'><h4 id='associatedtype.Item' class="type"><span id='Item.t' class='invisible'><code>type <a href='../../../futures/future/trait.Future.html#associatedtype.Item' class="type">Item</a> = T</code></span></h4>
 <div class='docblock'><p>The type of value that this future will resolved with if it is successful. <a href="../../../futures/future/trait.Future.html#associatedtype.Item">Read more</a></p>
