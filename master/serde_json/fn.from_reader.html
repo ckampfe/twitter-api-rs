@@ -5,7 +5,7 @@ without being buffered in memory by serde_json.</p>
 as a <a href="https://doc.rust-lang.org/std/fs/struct.File.html"><code>File</code></a>, you will want to apply your own buffering because serde_json
 will not buffer the input. See [<code>std::io::BufReader</code>].</p>
 <h1 id="example" class="section-header"><a href="#example">Example</a></h1>
-<pre class="rust rust-example-rendered">
+<div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_derive</span>;
 
@@ -38,7 +38,7 @@ will not buffer the input. See [<code>std::io::BufReader</code>].</p>
 <span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="kw">let</span> <span class="ident">u</span> <span class="op">=</span> <span class="ident">read_user_from_file</span>(<span class="string">&quot;test.json&quot;</span>).<span class="ident">unwrap</span>();
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:#?}&quot;</span>, <span class="ident">u</span>);
-}</pre>
+}</pre></div>
 <h1 id="errors" class="section-header"><a href="#errors">Errors</a></h1>
 <p>This conversion can fail if the structure of the input does not match the
 structure expected by <code>T</code>, for example if <code>T</code> is a struct type but the input
