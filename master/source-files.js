@@ -1,6 +1,6 @@
 var N = null;var sourcesIndex = {};
 sourcesIndex["adler32"] = {"name":"","dirs":[],"files":["lib.rs"]};
-sourcesIndex["arrayvec"] = {"name":"","dirs":[],"files":["array.rs","array_string.rs","char.rs","errors.rs","lib.rs","maybe_uninit.rs","range.rs"]};
+sourcesIndex["arrayvec"] = {"name":"","dirs":[],"files":["array.rs","array_string.rs","char.rs","errors.rs","lib.rs","maybe_uninit_nodrop.rs","range.rs"]};
 sourcesIndex["backtrace"] = {"name":"","dirs":[{"name":"backtrace","dirs":[],"files":["libunwind.rs","mod.rs"]},{"name":"symbolize","dirs":[],"files":["libbacktrace.rs","mod.rs"]}],"files":["capture.rs","dylib.rs","lib.rs","types.rs"]};
 sourcesIndex["backtrace_sys"] = {"name":"","dirs":[],"files":["lib.rs"]};
 sourcesIndex["base64"] = {"name":"","dirs":[],"files":["chunked_encoder.rs","decode.rs","display.rs","encode.rs","lib.rs","line_wrap.rs","tables.rs"]};
@@ -112,4 +112,3 @@ sourcesIndex["url"] = {"name":"","dirs":[],"files":["encoding.rs","form_urlencod
 sourcesIndex["uuid"] = {"name":"","dirs":[],"files":["adapter.rs","core_support.rs","lib.rs","prelude.rs","std_support.rs"]};
 sourcesIndex["void"] = {"name":"","dirs":[],"files":["lib.rs"]};
 sourcesIndex["want"] = {"name":"","dirs":[],"files":["lib.rs"]};
-createSourceSidebar();
