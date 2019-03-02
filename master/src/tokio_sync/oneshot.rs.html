@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-sync-0.1.2/src/oneshot.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>oneshot.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tokio_sync/index.html'><img src='../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/tokio-sync-0.1.3/src/oneshot.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>oneshot.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -509,32 +509,21 @@
 <span id="509">509</span>
 <span id="510">510</span>
 <span id="511">511</span>
-<span id="512">512</span>
-<span id="513">513</span>
-<span id="514">514</span>
-<span id="515">515</span>
-<span id="516">516</span>
-<span id="517">517</span>
-<span id="518">518</span>
-<span id="519">519</span>
-<span id="520">520</span>
-<span id="521">521</span>
-<span id="522">522</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! A channel for sending a single message between asynchronous tasks.</span>
 
 <span class="kw">use</span> <span class="ident">loom</span>::{
     <span class="ident">futures</span>::<span class="ident">task</span>::{<span class="self">self</span>, <span class="ident">Task</span>},
-    <span class="ident">sync</span>::<span class="ident">CausalCell</span>,
     <span class="ident">sync</span>::<span class="ident">atomic</span>::<span class="ident">AtomicUsize</span>,
+    <span class="ident">sync</span>::<span class="ident">CausalCell</span>,
 };
 
 <span class="kw">use</span> <span class="ident">futures</span>::{<span class="ident">Async</span>, <span class="ident">Future</span>, <span class="ident">Poll</span>};
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>::{<span class="self">self</span>, <span class="ident">ManuallyDrop</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::<span class="ident">Ordering</span>::{<span class="self">self</span>, <span class="ident">AcqRel</span>, <span class="ident">Acquire</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">Arc</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::<span class="ident">Ordering</span>::{<span class="self">self</span>, <span class="ident">Acquire</span>, <span class="ident">AcqRel</span>};
 
 <span class="doccomment">/// Sends a value to the associated `Receiver`.</span>
 <span class="doccomment">///</span>
@@ -625,7 +614,9 @@
         <span class="ident">rx_task</span>: <span class="ident">CausalCell</span>::<span class="ident">new</span>(<span class="ident">ManuallyDrop</span>::<span class="ident">new</span>(<span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">uninitialized</span>() })),
     });
 
-    <span class="kw">let</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">Sender</span> { <span class="ident">inner</span>: <span class="prelude-val">Some</span>(<span class="ident">inner</span>.<span class="ident">clone</span>()) };
+    <span class="kw">let</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">Sender</span> {
+        <span class="ident">inner</span>: <span class="prelude-val">Some</span>(<span class="ident">inner</span>.<span class="ident">clone</span>()),
+    };
     <span class="kw">let</span> <span class="ident">rx</span> <span class="op">=</span> <span class="ident">Receiver</span> { <span class="ident">inner</span>: <span class="prelude-val">Some</span>(<span class="ident">inner</span>) };
 
     (<span class="ident">tx</span>, <span class="ident">rx</span>)
@@ -644,14 +635,14 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">t</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">T</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>();
 
-        <span class="ident">inner</span>.<span class="ident">value</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> {
-            <span class="kw">unsafe</span> { <span class="kw-2">*</span><span class="ident">ptr</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">t</span>); }
+        <span class="ident">inner</span>.<span class="ident">value</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> {
+            <span class="kw-2">*</span><span class="ident">ptr</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">t</span>);
         });
 
         <span class="kw">if</span> <span class="op">!</span><span class="ident">inner</span>.<span class="ident">complete</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">inner</span>.<span class="ident">value</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> {
-                <span class="kw">unsafe</span> { (<span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">take</span>() }.<span class="ident">unwrap</span>()
-            }));
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">inner</span>
+                .<span class="ident">value</span>
+                .<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> { (<span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">take</span>() }.<span class="ident">unwrap</span>()));
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -679,9 +670,9 @@
         }
 
         <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_tx_task_set</span>() {
-            <span class="kw">let</span> <span class="ident">will_notify</span> <span class="op">=</span> <span class="ident">inner</span>.<span class="ident">tx_task</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> {
-                (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">will_notify_current</span>()
-            });
+            <span class="kw">let</span> <span class="ident">will_notify</span> <span class="op">=</span> <span class="ident">inner</span>
+                .<span class="ident">tx_task</span>
+                .<span class="ident">with</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> { (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">will_notify_current</span>() });
 
             <span class="kw">if</span> <span class="op">!</span><span class="ident">will_notify</span> {
                 <span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">unset_tx_task</span>(<span class="kw-2">&amp;</span><span class="ident">inner</span>.<span class="ident">state</span>);
@@ -696,7 +687,9 @@
 
         <span class="kw">if</span> <span class="op">!</span><span class="ident">state</span>.<span class="ident">is_tx_task_set</span>() {
             <span class="comment">// Attempt to set the task</span>
-            <span class="kw">unsafe</span> { <span class="ident">inner</span>.<span class="ident">set_tx_task</span>(); }
+            <span class="kw">unsafe</span> {
+                <span class="ident">inner</span>.<span class="ident">set_tx_task</span>();
+            }
 
             <span class="comment">// Update the state</span>
             <span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">set_tx_task</span>(<span class="kw-2">&amp;</span><span class="ident">inner</span>.<span class="ident">state</span>);
@@ -708,7 +701,6 @@
 
         <span class="prelude-val">Ok</span>(<span class="ident">Async</span>::<span class="ident">NotReady</span>)
     }
-
 
     <span class="doccomment">/// Check if the associated [`Receiver`] handle has been dropped.</span>
     <span class="doccomment">///</span>
@@ -794,7 +786,7 @@
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">RecvError</span>;
 
     <span class="kw">fn</span> <span class="ident">poll</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">RecvError</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Async</span>::{<span class="ident">Ready</span>, <span class="ident">NotReady</span>};
+        <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Async</span>::{<span class="ident">NotReady</span>, <span class="ident">Ready</span>};
 
         <span class="comment">// If `inner` is `None`, then `poll()` has already completed.</span>
         <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">as_ref</span>() {
@@ -821,16 +813,14 @@
         }
 
         <span class="kw">if</span> <span class="ident">prev</span>.<span class="ident">is_rx_task_set</span>() {
-            <span class="self">self</span>.<span class="ident">rx_task</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> {
-                (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">notify</span>()
-            });
+            <span class="self">self</span>.<span class="ident">rx_task</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> { (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">notify</span>() });
         }
 
         <span class="bool-val">true</span>
     }
 
     <span class="kw">fn</span> <span class="ident">poll_recv</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">RecvError</span><span class="op">&gt;</span> {
-        <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Async</span>::{<span class="ident">Ready</span>, <span class="ident">NotReady</span>};
+        <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">Async</span>::{<span class="ident">NotReady</span>, <span class="ident">Ready</span>};
 
         <span class="comment">// Load the state</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">load</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>, <span class="ident">Acquire</span>);
@@ -844,9 +834,9 @@
             <span class="prelude-val">Err</span>(<span class="ident">RecvError</span>(()))
         } <span class="kw">else</span> {
             <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_rx_task_set</span>() {
-                <span class="kw">let</span> <span class="ident">will_notify</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">rx_task</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> {
-                    (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">will_notify_current</span>()
-                });
+                <span class="kw">let</span> <span class="ident">will_notify</span> <span class="op">=</span> <span class="self">self</span>
+                    .<span class="ident">rx_task</span>
+                    .<span class="ident">with</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> { (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">will_notify_current</span>() });
 
                 <span class="comment">// Check if the task is still the same</span>
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">will_notify</span> {
@@ -865,7 +855,9 @@
 
             <span class="kw">if</span> <span class="op">!</span><span class="ident">state</span>.<span class="ident">is_rx_task_set</span>() {
                 <span class="comment">// Attempt to set the task</span>
-                <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">set_rx_task</span>(); }
+                <span class="kw">unsafe</span> {
+                    <span class="self">self</span>.<span class="ident">set_rx_task</span>();
+                }
 
                 <span class="comment">// Update the state</span>
                 <span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">set_rx_task</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>);
@@ -889,41 +881,31 @@
         <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="ident">State</span>::<span class="ident">set_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>);
 
         <span class="kw">if</span> <span class="ident">prev</span>.<span class="ident">is_tx_task_set</span>() <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">prev</span>.<span class="ident">is_complete</span>() {
-            <span class="self">self</span>.<span class="ident">tx_task</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> {
-                (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">notify</span>()
-            });
+            <span class="self">self</span>.<span class="ident">tx_task</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> { (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">notify</span>() });
         }
     }
 
     <span class="doccomment">/// Consume the value. This function does not check `state`.</span>
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">consume_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">value</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> {
-            (<span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">take</span>()
-        })
+        <span class="self">self</span>.<span class="ident">value</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> (<span class="kw-2">*</span><span class="ident">ptr</span>).<span class="ident">take</span>())
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">drop_rx_task</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="self">self</span>.<span class="ident">rx_task</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> {
-            <span class="ident">ManuallyDrop</span>::<span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">ptr</span>)
-        })
+        <span class="self">self</span>.<span class="ident">rx_task</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="ident">ManuallyDrop</span>::<span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">ptr</span>))
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">drop_tx_task</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="self">self</span>.<span class="ident">tx_task</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> {
-            <span class="ident">ManuallyDrop</span>::<span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">ptr</span>)
-        })
+        <span class="self">self</span>.<span class="ident">tx_task</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="ident">ManuallyDrop</span>::<span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">ptr</span>))
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_rx_task</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="self">self</span>.<span class="ident">rx_task</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> {
-            <span class="kw-2">*</span><span class="ident">ptr</span> <span class="op">=</span> <span class="ident">ManuallyDrop</span>::<span class="ident">new</span>(<span class="ident">task</span>::<span class="ident">current</span>())
-        });
+        <span class="self">self</span>.<span class="ident">rx_task</span>
+            .<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">ptr</span> <span class="op">=</span> <span class="ident">ManuallyDrop</span>::<span class="ident">new</span>(<span class="ident">task</span>::<span class="ident">current</span>()));
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_tx_task</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="self">self</span>.<span class="ident">tx_task</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> {
-            <span class="kw-2">*</span><span class="ident">ptr</span> <span class="op">=</span> <span class="ident">ManuallyDrop</span>::<span class="ident">new</span>(<span class="ident">task</span>::<span class="ident">current</span>())
-        });
+        <span class="self">self</span>.<span class="ident">tx_task</span>
+            .<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">ptr</span> <span class="op">=</span> <span class="ident">ManuallyDrop</span>::<span class="ident">new</span>(<span class="ident">task</span>::<span class="ident">current</span>()));
     }
 }
 
@@ -935,18 +917,14 @@
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">State</span>(<span class="kw-2">*</span><span class="self">self</span>.<span class="ident">state</span>.<span class="ident">get_mut</span>());
 
         <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_rx_task_set</span>() {
-            <span class="self">self</span>.<span class="ident">rx_task</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> {
-                <span class="kw">unsafe</span> {
-                    <span class="ident">ManuallyDrop</span>::<span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">ptr</span>);
-                }
+            <span class="self">self</span>.<span class="ident">rx_task</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> {
+                <span class="ident">ManuallyDrop</span>::<span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">ptr</span>);
             });
         }
 
         <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_tx_task_set</span>() {
-            <span class="self">self</span>.<span class="ident">tx_task</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> {
-                <span class="kw">unsafe</span> {
-                    <span class="ident">ManuallyDrop</span>::<span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">ptr</span>);
-                }
+            <span class="self">self</span>.<span class="ident">tx_task</span>.<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">ptr</span><span class="op">|</span> <span class="kw">unsafe</span> {
+                <span class="ident">ManuallyDrop</span>::<span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">ptr</span>);
             });
         }
     }
@@ -963,8 +941,8 @@
 }
 
 <span class="kw">const</span> <span class="ident">RX_TASK_SET</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0b00001</span>;
-<span class="kw">const</span> <span class="ident">VALUE_SENT</span>: <span class="ident">usize</span>  <span class="op">=</span> <span class="number">0b00010</span>;
-<span class="kw">const</span> <span class="ident">CLOSED</span>: <span class="ident">usize</span>      <span class="op">=</span> <span class="number">0b00100</span>;
+<span class="kw">const</span> <span class="ident">VALUE_SENT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0b00010</span>;
+<span class="kw">const</span> <span class="ident">CLOSED</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0b00100</span>;
 <span class="kw">const</span> <span class="ident">TX_TASK_SET</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0b01000</span>;
 
 <span class="kw">impl</span> <span class="ident">State</span> {
