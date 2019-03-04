@@ -11,13 +11,13 @@ which is automatically implemented for every type implementing <code>RngCore</co
 <p>Three different methods for generating random data are provided since the
 optimal implementation of each is dependent on the type of generator. There
 is no required relationship between the output of each; e.g. many
-implementations of <a href="RngCore::fill_bytes"><code>fill_bytes</code></a> consume a whole number of <code>u32</code> or <code>u64</code>
+implementations of <a href="../rand/trait.RngCore.html#tymethod.fill_bytes"><code>fill_bytes</code></a> consume a whole number of <code>u32</code> or <code>u64</code>
 values and drop any remaining unused bytes.</p>
-<p>The <a href="RngCore::try_fill_bytes"><code>try_fill_bytes</code></a> method is a variant of <a href="RngCore::fill_bytes"><code>fill_bytes</code></a> allowing error
+<p>The <a href="../rand/trait.RngCore.html#tymethod.try_fill_bytes"><code>try_fill_bytes</code></a> method is a variant of <a href="../rand/trait.RngCore.html#tymethod.fill_bytes"><code>fill_bytes</code></a> allowing error
 handling; it is not deemed sufficiently useful to add equivalents for
-<a href="RngCore::next_u32"><code>next_u32</code></a> or <a href="RngCore::next_u64"><code>next_u64</code></a> since the latter methods are almost always used
+<a href="../rand/trait.RngCore.html#tymethod.next_u32"><code>next_u32</code></a> or <a href="../rand/trait.RngCore.html#tymethod.next_u64"><code>next_u64</code></a> since the latter methods are almost always used
 with algorithmic generators (PRNGs), which are normally infallible.</p>
-<p>Algorithmic generators implementing [<code>SeedableRng</code>] should normally have
+<p>Algorithmic generators implementing <a href="../rand/trait.SeedableRng.html" title="`SeedableRng`"><code>SeedableRng</code></a> should normally have
 <em>portable, reproducible</em> output, i.e. fix Endianness when converting values
 to avoid platform differences, and avoid making any changes which affect
 output (except by communicating that the release has breaking changes).</p>
@@ -27,14 +27,14 @@ in this trait directly, then use the helper functions from the
 <p>It is recommended that implementations also implement:</p>
 <ul>
 <li><code>Debug</code> with a custom implementation which <em>does not</em> print any internal
-state (at least, [<code>CryptoRng</code>]s should not risk leaking state through
+state (at least, <a href="../rand/trait.CryptoRng.html" title="`CryptoRng`"><code>CryptoRng</code></a>s should not risk leaking state through
 <code>Debug</code>).</li>
 <li><code>Serialize</code> and <code>Deserialize</code> (from Serde), preferably making Serde
 support optional at the crate level in PRNG libs.</li>
 <li><code>Clone</code>, if possible.</li>
 <li><em>never</em> implement <code>Copy</code> (accidental copies may cause repeated values).</li>
 <li><em>do not</em> implement <code>Default</code> for pseudorandom generators, but instead
-implement [<code>SeedableRng</code>], to guide users towards proper seeding.
+implement <a href="../rand/trait.SeedableRng.html" title="`SeedableRng`"><code>SeedableRng</code></a>, to guide users towards proper seeding.
 External / hardware RNGs can choose to implement <code>Default</code>.</li>
 <li><code>Eq</code> and <code>PartialEq</code> could be implemented, but are probably not useful.</li>
 </ul>
@@ -80,7 +80,7 @@ via [<code>next_u32</code>][impls::next_u64_via_u32] or via
 <p>RNGs must implement at least one method from this trait directly. In
 the case this method is not implemented directly, it can be implemented
 via [<code>next_u*</code>][impls::fill_bytes_via_next] or
-via [<code>try_fill_bytes</code>][RngCore::try_fill_bytes]; if this generator can
+via <a href="../rand/trait.RngCore.html#tymethod.try_fill_bytes" title="RngCore::try_fill_bytes"><code>try_fill_bytes</code></a>; if this generator can
 fail the implementation must choose how best to handle errors here
 (e.g. panic with a descriptive message or log a warning and retry a few
 times).</p>
@@ -93,7 +93,7 @@ source of randomness).</p>
 generating random data thus making this the primary method implemented
 by external (true) RNGs (e.g. <code>OsRng</code>) which can fail. It may be used
 directly to generate keys and to seed (infallible) PRNGs.</p>
-<p>Other than error handling, this method is identical to <a href="RngCore::fill_bytes"><code>fill_bytes</code></a>;
+<p>Other than error handling, this method is identical to <a href="../rand/trait.RngCore.html#tymethod.fill_bytes"><code>fill_bytes</code></a>;
 thus this may be implemented using <code>Ok(self.fill_bytes(dest))</code> or
 <code>fill_bytes</code> may be implemented with
 <code>self.try_fill_bytes(dest).unwrap()</code> or more specific error handling.</p>
