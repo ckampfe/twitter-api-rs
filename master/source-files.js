@@ -1,6 +1,6 @@
 var N = null;var sourcesIndex = {};
 sourcesIndex["adler32"] = {"name":"","dirs":[],"files":["lib.rs"]};
-sourcesIndex["arrayvec"] = {"name":"","dirs":[],"files":["array.rs","array_string.rs","char.rs","errors.rs","lib.rs","maybe_uninit_nodrop.rs","range.rs"]};
+sourcesIndex["arrayvec"] = {"name":"","dirs":[],"files":["array.rs","array_string.rs","char.rs","errors.rs","lib.rs","maybe_uninit.rs","range.rs"]};
 sourcesIndex["backtrace"] = {"name":"","dirs":[{"name":"backtrace","dirs":[],"files":["libunwind.rs","mod.rs"]},{"name":"symbolize","dirs":[],"files":["libbacktrace.rs","mod.rs"]}],"files":["capture.rs","dylib.rs","lib.rs","types.rs"]};
 sourcesIndex["backtrace_sys"] = {"name":"","dirs":[],"files":["lib.rs"]};
 sourcesIndex["base64"] = {"name":"","dirs":[],"files":["chunked_encoder.rs","decode.rs","display.rs","encode.rs","lib.rs","line_wrap.rs","tables.rs"]};
@@ -9,8 +9,6 @@ sourcesIndex["byteorder"] = {"name":"","dirs":[],"files":["io.rs","lib.rs"]};
 sourcesIndex["bytes"] = {"name":"","dirs":[{"name":"buf","dirs":[],"files":["buf.rs","buf_mut.rs","chain.rs","from_buf.rs","into_buf.rs","iter.rs","mod.rs","reader.rs","take.rs","vec_deque.rs","writer.rs"]}],"files":["bytes.rs","debug.rs","lib.rs"]};
 sourcesIndex["cfg_if"] = {"name":"","dirs":[],"files":["lib.rs"]};
 sourcesIndex["crc32fast"] = {"name":"","dirs":[{"name":"specialized","dirs":[],"files":["mod.rs","pclmulqdq.rs"]}],"files":["baseline.rs","combine.rs","lib.rs","table.rs"]};
-sourcesIndex["crossbeam"] = {"name":"","dirs":[],"files":["arc_cell.rs","lib.rs","ms_queue.rs","seg_queue.rs","sharded_lock.rs","treiber_stack.rs","wait_group.rs"]};
-sourcesIndex["crossbeam_channel"] = {"name":"","dirs":[{"name":"flavors","dirs":[],"files":["after.rs","array.rs","list.rs","mod.rs","never.rs","tick.rs","zero.rs"]}],"files":["channel.rs","context.rs","counter.rs","err.rs","lib.rs","select.rs","select_macro.rs","utils.rs","waker.rs"]};
 sourcesIndex["crossbeam_deque"] = {"name":"","dirs":[],"files":["lib.rs"]};
 sourcesIndex["crossbeam_epoch"] = {"name":"","dirs":[{"name":"sync","dirs":[],"files":["list.rs","mod.rs","queue.rs"]}],"files":["atomic.rs","collector.rs","default.rs","deferred.rs","epoch.rs","guard.rs","internal.rs","lib.rs"]};
 sourcesIndex["crossbeam_queue"] = {"name":"","dirs":[],"files":["array_queue.rs","err.rs","lib.rs","seg_queue.rs"]};
@@ -109,10 +107,8 @@ sourcesIndex["unicase"] = {"name":"","dirs":[{"name":"unicode","dirs":[],"files"
 sourcesIndex["unicode_bidi"] = {"name":"","dirs":[{"name":"char_data","dirs":[],"files":["mod.rs","tables.rs"]}],"files":["deprecated.rs","explicit.rs","format_chars.rs","implicit.rs","level.rs","lib.rs","prepare.rs"]};
 sourcesIndex["unicode_normalization"] = {"name":"","dirs":[],"files":["decompose.rs","lib.rs","normalize.rs","quick_check.rs","recompose.rs","stream_safe.rs","tables.rs"]};
 sourcesIndex["unicode_xid"] = {"name":"","dirs":[],"files":["lib.rs","tables.rs"]};
-sourcesIndex["unreachable"] = {"name":"","dirs":[],"files":["lib.rs"]};
 sourcesIndex["untrusted"] = {"name":"","dirs":[],"files":["untrusted.rs"]};
 sourcesIndex["url"] = {"name":"","dirs":[],"files":["encoding.rs","form_urlencoded.rs","host.rs","lib.rs","origin.rs","parser.rs","path_segments.rs","quirks.rs","slicing.rs"]};
 sourcesIndex["uuid"] = {"name":"","dirs":[],"files":["adapter.rs","core_support.rs","lib.rs","prelude.rs","std_support.rs"]};
-sourcesIndex["void"] = {"name":"","dirs":[],"files":["lib.rs"]};
 sourcesIndex["want"] = {"name":"","dirs":[],"files":["lib.rs"]};
 createSourceSidebar();
