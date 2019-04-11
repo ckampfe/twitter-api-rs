@@ -27,7 +27,7 @@ recorded.</p>
 <p>This calls the [<code>enter</code>] function on the <a href="../subscriber/trait.Subscriber.html"><code>Subscriber</code></a> that this
 <code>Dispatch</code> forwards to.</p>
 </div><h4 id='method.exit' class="method"><code id='exit.v'>pub fn <a href='#method.exit' class='fnname'>exit</a>(&amp;self, span: &amp;<a class="struct" href="../../tokio_trace_core/span/struct.Id.html" title="struct tokio_trace_core::span::Id">Id</a>)</code><a class='srclink' href='../../src/tokio_trace_core/dispatcher.rs.html#192-194' title='goto source code'>[src]</a></h4><div class='docblock'><p>Records that a span has been exited.</p>
-<p>This calls the <a href="../../tokio_trace_core/subscriber/trait.Subscriber.html#tymethod.exit"><code>exit</code></a> function on the <code>Subscriber</code>
+<p>This calls the <a href="::Subscriber::exit"><code>exit</code></a> function on the <code>Subscriber</code>
 that this <code>Dispatch</code> forwards to.</p>
 </div><h4 id='method.clone_span' class="method"><code id='clone_span.v'>pub fn <a href='#method.clone_span' class='fnname'>clone_span</a>(&amp;self, id: &amp;<a class="struct" href="../../tokio_trace_core/span/struct.Id.html" title="struct tokio_trace_core::span::Id">Id</a>) -&gt; <a class="struct" href="../../tokio_trace_core/span/struct.Id.html" title="struct tokio_trace_core::span::Id">Id</a></code><a class='srclink' href='../../src/tokio_trace_core/dispatcher.rs.html#209-211' title='goto source code'>[src]</a></h4><div class='docblock'><p>Notifies the subscriber that a <a href="../span/struct.Id.html">span ID</a> has been cloned.</p>
 <p>This function is guaranteed to only be called with span IDs that were

@@ -3,19 +3,18 @@
 <code>Deserializer::into_iter</code> method.</p>
 <p>The data can consist of any JSON value. Values need to be a self-delineating value e.g.
 arrays, objects, or strings, or be followed by whitespace or a self-delineating value.</p>
+<pre><code class="language-edition2018">use serde_json::{Deserializer, Value};
 
-<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
-<span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="ident">Deserializer</span>, <span class="ident">Value</span>};
+fn main() {
+    let data = &quot;{\&quot;k\&quot;: 3}1\&quot;cool\&quot;\&quot;stuff\&quot; 3{}  [0, 1, 2]&quot;;
 
-<span class="kw">fn</span> <span class="ident">main</span>() {
-    <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="string">&quot;{\&quot;k\&quot;: 3}1\&quot;cool\&quot;\&quot;stuff\&quot; 3{}  [0, 1, 2]&quot;</span>;
+    let stream = Deserializer::from_str(data).into_iter::&lt;Value&gt;();
 
-    <span class="kw">let</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">Deserializer</span>::<span class="ident">from_str</span>(<span class="ident">data</span>).<span class="ident">into_iter</span>::<span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span>();
-
-    <span class="kw">for</span> <span class="ident">value</span> <span class="kw">in</span> <span class="ident">stream</span> {
-        <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">value</span>.<span class="ident">unwrap</span>());
+    for value in stream {
+        println!(&quot;{}&quot;, value.unwrap());
     }
-}</pre></div>
+}
+</code></pre>
 </div><h2 id='methods' class='small-section-header'>Methods<a href='#methods' class='anchor'></a></h2><h3 id='impl' class='impl'><code class='in-band'>impl&lt;'de, R, T&gt; <a class="struct" href="../../serde_json/de/struct.StreamDeserializer.html" title="struct serde_json::de::StreamDeserializer">StreamDeserializer</a>&lt;'de, R, T&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="../../serde_json/de/trait.Read.html" title="trait serde_json::de::Read">Read</a>&lt;'de&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../../serde/de/trait.Deserialize.html" title="trait serde::de::Deserialize">Deserialize</a>&lt;'de&gt;,&nbsp;</span></code><a href='#impl' class='anchor'></a><a class='srclink' href='../../src/serde_json/de.rs.html#2034-2106' title='goto source code'>[src]</a></h3><div class='impl-items'><h4 id='method.new' class="method"><code id='new.v'>pub fn <a href='#method.new' class='fnname'>new</a>(read: R) -&gt; Self</code><a class='srclink' href='../../src/serde_json/de.rs.html#2047-2055' title='goto source code'>[src]</a></h4><div class='docblock'><p>Create a JSON stream deserializer from one of the possible serde_json
 input sources.</p>
 <p>Typically it is more convenient to use one of these methods instead:</p>
@@ -27,25 +26,24 @@ input sources.</p>
 </div><h4 id='method.byte_offset' class="method"><code id='byte_offset.v'>pub fn <a href='#method.byte_offset' class='fnname'>byte_offset</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a></code><a class='srclink' href='../../src/serde_json/de.rs.html#2088-2090' title='goto source code'>[src]</a></h4><div class='docblock'><p>Returns the number of bytes so far deserialized into a successful <code>T</code>.</p>
 <p>If a stream deserializer returns an EOF error, new data can be joined to
 <code>old_data[stream.byte_offset()..]</code> to try again.</p>
+<pre><code class="language-edition2018">let data = b&quot;[0] [1] [&quot;;
 
-<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
-<span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="string">b&quot;[0] [1] [&quot;</span>;
+let de = serde_json::Deserializer::from_slice(data);
+let mut stream = de.into_iter::&lt;Vec&lt;i32&gt;&gt;();
+assert_eq!(0, stream.byte_offset());
 
-<span class="kw">let</span> <span class="ident">de</span> <span class="op">=</span> <span class="ident">serde_json</span>::<span class="ident">Deserializer</span>::<span class="ident">from_slice</span>(<span class="ident">data</span>);
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">de</span>.<span class="ident">into_iter</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;&gt;</span>();
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">0</span>, <span class="ident">stream</span>.<span class="ident">byte_offset</span>());
+println!(&quot;{:?}&quot;, stream.next()); // [0]
+assert_eq!(3, stream.byte_offset());
 
-<span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">stream</span>.<span class="ident">next</span>()); <span class="comment">// [0]</span>
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">3</span>, <span class="ident">stream</span>.<span class="ident">byte_offset</span>());
+println!(&quot;{:?}&quot;, stream.next()); // [1]
+assert_eq!(7, stream.byte_offset());
 
-<span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">stream</span>.<span class="ident">next</span>()); <span class="comment">// [1]</span>
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">7</span>, <span class="ident">stream</span>.<span class="ident">byte_offset</span>());
+println!(&quot;{:?}&quot;, stream.next()); // error
+assert_eq!(8, stream.byte_offset());
 
-<span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">stream</span>.<span class="ident">next</span>()); <span class="comment">// error</span>
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">8</span>, <span class="ident">stream</span>.<span class="ident">byte_offset</span>());
-
-<span class="comment">// If err.is_eof(), can join the remaining data to new data and continue.</span>
-<span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">data</span>[<span class="ident">stream</span>.<span class="ident">byte_offset</span>()..];</pre></div>
+// If err.is_eof(), can join the remaining data to new data and continue.
+let remaining = &amp;data[stream.byte_offset()..];
+</code></pre>
 <p><em>Note:</em> In the future this method may be changed to return the number of
 bytes so far deserialized into a successful T <em>or</em> syntactically valid
 JSON skipped over due to a type error. See <a href="https://github.com/serde-rs/json/issues/70">serde-rs/json#70</a> for an

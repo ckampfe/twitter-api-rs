@@ -3,80 +3,89 @@
 <code>i64::MAX</code>.</p>
 <p>For any Number on which <code>is_i64</code> returns true, <code>as_i64</code> is guaranteed to
 return the integer value.</p>
+<pre><code class="language-edition2018"># use serde_json::json;
+#
+let big = i64::max_value() as u64 + 10;
+let v = json!({ &quot;a&quot;: 64, &quot;b&quot;: big, &quot;c&quot;: 256.0 });
 
-<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
-<span class="kw">let</span> <span class="ident">big</span> <span class="op">=</span> <span class="ident">i64</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">u64</span> <span class="op">+</span> <span class="number">10</span>;
-<span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({ <span class="string">&quot;a&quot;</span>: <span class="number">64</span>, <span class="string">&quot;b&quot;</span>: <span class="ident">big</span>, <span class="string">&quot;c&quot;</span>: <span class="number">256.0</span> });
+assert!(v[&quot;a&quot;].is_i64());
 
-<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;a&quot;</span>].<span class="ident">is_i64</span>());
+// Greater than i64::MAX.
+assert!(!v[&quot;b&quot;].is_i64());
 
-<span class="comment">// Greater than i64::MAX.</span>
-<span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">v</span>[<span class="string">&quot;b&quot;</span>].<span class="ident">is_i64</span>());
-
-<span class="comment">// Numbers with a decimal point are not considered integers.</span>
-<span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">v</span>[<span class="string">&quot;c&quot;</span>].<span class="ident">is_i64</span>());</pre></div>
+// Numbers with a decimal point are not considered integers.
+assert!(!v[&quot;c&quot;].is_i64());
+</code></pre>
 </div><h4 id='method.is_u64' class="method"><code id='is_u64.v'>pub fn <a href='#method.is_u64' class='fnname'>is_u64</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><a class='srclink' href='../src/serde_json/number.rs.html#94-102' title='goto source code'>[src]</a></h4><div class='docblock'><p>Returns true if the <code>Number</code> is an integer between zero and <code>u64::MAX</code>.</p>
 <p>For any Number on which <code>is_u64</code> returns true, <code>as_u64</code> is guaranteed to
 return the integer value.</p>
+<pre><code class="language-edition2018"># use serde_json::json;
+#
+let v = json!({ &quot;a&quot;: 64, &quot;b&quot;: -64, &quot;c&quot;: 256.0 });
 
-<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
-<span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({ <span class="string">&quot;a&quot;</span>: <span class="number">64</span>, <span class="string">&quot;b&quot;</span>: <span class="op">-</span><span class="number">64</span>, <span class="string">&quot;c&quot;</span>: <span class="number">256.0</span> });
+assert!(v[&quot;a&quot;].is_u64());
 
-<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;a&quot;</span>].<span class="ident">is_u64</span>());
+// Negative integer.
+assert!(!v[&quot;b&quot;].is_u64());
 
-<span class="comment">// Negative integer.</span>
-<span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">v</span>[<span class="string">&quot;b&quot;</span>].<span class="ident">is_u64</span>());
-
-<span class="comment">// Numbers with a decimal point are not considered integers.</span>
-<span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">v</span>[<span class="string">&quot;c&quot;</span>].<span class="ident">is_u64</span>());</pre></div>
+// Numbers with a decimal point are not considered integers.
+assert!(!v[&quot;c&quot;].is_u64());
+</code></pre>
 </div><h4 id='method.is_f64' class="method"><code id='is_f64.v'>pub fn <a href='#method.is_f64' class='fnname'>is_f64</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><a class='srclink' href='../src/serde_json/number.rs.html#124-139' title='goto source code'>[src]</a></h4><div class='docblock'><p>Returns true if the <code>Number</code> can be represented by f64.</p>
 <p>For any Number on which <code>is_f64</code> returns true, <code>as_f64</code> is guaranteed to
 return the floating point value.</p>
 <p>Currently this function returns true if and only if both <code>is_i64</code> and
 <code>is_u64</code> return false but this is not a guarantee in the future.</p>
+<pre><code class="language-edition2018"># use serde_json::json;
+#
+let v = json!({ &quot;a&quot;: 256.0, &quot;b&quot;: 64, &quot;c&quot;: -64 });
 
-<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
-<span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({ <span class="string">&quot;a&quot;</span>: <span class="number">256.0</span>, <span class="string">&quot;b&quot;</span>: <span class="number">64</span>, <span class="string">&quot;c&quot;</span>: <span class="op">-</span><span class="number">64</span> });
+assert!(v[&quot;a&quot;].is_f64());
 
-<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;a&quot;</span>].<span class="ident">is_f64</span>());
-
-<span class="comment">// Integers.</span>
-<span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">v</span>[<span class="string">&quot;b&quot;</span>].<span class="ident">is_f64</span>());
-<span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">v</span>[<span class="string">&quot;c&quot;</span>].<span class="ident">is_f64</span>());</pre></div>
+// Integers.
+assert!(!v[&quot;b&quot;].is_f64());
+assert!(!v[&quot;c&quot;].is_f64());
+</code></pre>
 </div><h4 id='method.as_i64' class="method"><code id='as_i64.v'>pub fn <a href='#method.as_i64' class='fnname'>as_i64</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i64.html">i64</a>&gt;</code><a class='srclink' href='../src/serde_json/number.rs.html#155-170' title='goto source code'>[src]</a></h4><div class='docblock'><p>If the <code>Number</code> is an integer, represent it as i64 if possible. Returns
 None otherwise.</p>
+<pre><code class="language-edition2018"># use serde_json::json;
+#
+let big = i64::max_value() as u64 + 10;
+let v = json!({ &quot;a&quot;: 64, &quot;b&quot;: big, &quot;c&quot;: 256.0 });
 
-<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
-<span class="kw">let</span> <span class="ident">big</span> <span class="op">=</span> <span class="ident">i64</span>::<span class="ident">max_value</span>() <span class="kw">as</span> <span class="ident">u64</span> <span class="op">+</span> <span class="number">10</span>;
-<span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({ <span class="string">&quot;a&quot;</span>: <span class="number">64</span>, <span class="string">&quot;b&quot;</span>: <span class="ident">big</span>, <span class="string">&quot;c&quot;</span>: <span class="number">256.0</span> });
-
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;a&quot;</span>].<span class="ident">as_i64</span>(), <span class="prelude-val">Some</span>(<span class="number">64</span>));
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;b&quot;</span>].<span class="ident">as_i64</span>(), <span class="prelude-val">None</span>);
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;c&quot;</span>].<span class="ident">as_i64</span>(), <span class="prelude-val">None</span>);</pre></div>
+assert_eq!(v[&quot;a&quot;].as_i64(), Some(64));
+assert_eq!(v[&quot;b&quot;].as_i64(), None);
+assert_eq!(v[&quot;c&quot;].as_i64(), None);
+</code></pre>
 </div><h4 id='method.as_u64' class="method"><code id='as_u64.v'>pub fn <a href='#method.as_u64' class='fnname'>as_u64</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a>&gt;</code><a class='srclink' href='../src/serde_json/number.rs.html#185-193' title='goto source code'>[src]</a></h4><div class='docblock'><p>If the <code>Number</code> is an integer, represent it as u64 if possible. Returns
 None otherwise.</p>
+<pre><code class="language-edition2018"># use serde_json::json;
+#
+let v = json!({ &quot;a&quot;: 64, &quot;b&quot;: -64, &quot;c&quot;: 256.0 });
 
-<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
-<span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({ <span class="string">&quot;a&quot;</span>: <span class="number">64</span>, <span class="string">&quot;b&quot;</span>: <span class="op">-</span><span class="number">64</span>, <span class="string">&quot;c&quot;</span>: <span class="number">256.0</span> });
-
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;a&quot;</span>].<span class="ident">as_u64</span>(), <span class="prelude-val">Some</span>(<span class="number">64</span>));
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;b&quot;</span>].<span class="ident">as_u64</span>(), <span class="prelude-val">None</span>);
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;c&quot;</span>].<span class="ident">as_u64</span>(), <span class="prelude-val">None</span>);</pre></div>
+assert_eq!(v[&quot;a&quot;].as_u64(), Some(64));
+assert_eq!(v[&quot;b&quot;].as_u64(), None);
+assert_eq!(v[&quot;c&quot;].as_u64(), None);
+</code></pre>
 </div><h4 id='method.as_f64' class="method"><code id='as_f64.v'>pub fn <a href='#method.as_f64' class='fnname'>as_f64</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt;</code><a class='srclink' href='../src/serde_json/number.rs.html#207-216' title='goto source code'>[src]</a></h4><div class='docblock'><p>Represents the number as f64 if possible. Returns None otherwise.</p>
+<pre><code class="language-edition2018"># use serde_json::json;
+#
+let v = json!({ &quot;a&quot;: 256.0, &quot;b&quot;: 64, &quot;c&quot;: -64 });
 
-<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
-<span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="macro">json</span><span class="macro">!</span>({ <span class="string">&quot;a&quot;</span>: <span class="number">256.0</span>, <span class="string">&quot;b&quot;</span>: <span class="number">64</span>, <span class="string">&quot;c&quot;</span>: <span class="op">-</span><span class="number">64</span> });
-
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;a&quot;</span>].<span class="ident">as_f64</span>(), <span class="prelude-val">Some</span>(<span class="number">256.0</span>));
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;b&quot;</span>].<span class="ident">as_f64</span>(), <span class="prelude-val">Some</span>(<span class="number">64.0</span>));
-<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">v</span>[<span class="string">&quot;c&quot;</span>].<span class="ident">as_f64</span>(), <span class="prelude-val">Some</span>(<span class="op">-</span><span class="number">64.0</span>));</pre></div>
+assert_eq!(v[&quot;a&quot;].as_f64(), Some(256.0));
+assert_eq!(v[&quot;b&quot;].as_f64(), Some(64.0));
+assert_eq!(v[&quot;c&quot;].as_f64(), Some(-64.0));
+</code></pre>
 </div><h4 id='method.from_f64' class="method"><code id='from_f64.v'>pub fn <a href='#method.from_f64' class='fnname'>from_f64</a>(f: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../serde_json/struct.Number.html" title="struct serde_json::Number">Number</a>&gt;</code><a class='srclink' href='../src/serde_json/number.rs.html#231-247' title='goto source code'>[src]</a></h4><div class='docblock'><p>Converts a finite <code>f64</code> to a <code>Number</code>. Infinite or NaN values are not JSON
 numbers.</p>
+<pre><code class="language-edition2018"># use std::f64;
+#
+# use serde_json::Number;
+#
+assert!(Number::from_f64(256.0).is_some());
 
-<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
-<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Number</span>::<span class="ident">from_f64</span>(<span class="number">256.0</span>).<span class="ident">is_some</span>());
-
-<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Number</span>::<span class="ident">from_f64</span>(<span class="ident">f64</span>::<span class="ident">NAN</span>).<span class="ident">is_none</span>());</pre></div>
+assert!(Number::from_f64(f64::NAN).is_none());
+</code></pre>
 </div></div><h2 id='implementations' class='small-section-header'>Trait Implementations<a href='#implementations' class='anchor'></a></h2><div id='implementations-list'><h3 id='impl-PartialEq%3CNumber%3E' class='impl'><code class='in-band'>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>&lt;<a class="struct" href="../serde_json/struct.Number.html" title="struct serde_json::Number">Number</a>&gt; for <a class="struct" href="../serde_json/struct.Number.html" title="struct serde_json::Number">Number</a></code><a href='#impl-PartialEq%3CNumber%3E' class='anchor'></a><a class='srclink' href='../src/serde_json/number.rs.html#24' title='goto source code'>[src]</a></h3><div class='impl-items'><h4 id='method.eq' class="method hidden"><code id='eq.v'>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class="struct" href="../serde_json/struct.Number.html" title="struct serde_json::Number">Number</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><a class='srclink' href='../src/serde_json/number.rs.html#24' title='goto source code'>[src]</a></h4><div class='docblock hidden'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
 </div><h4 id='method.ne' class="method hidden"><code id='ne.v'>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;<a class="struct" href="../serde_json/struct.Number.html" title="struct serde_json::Number">Number</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><a class='srclink' href='../src/serde_json/number.rs.html#24' title='goto source code'>[src]</a></h4><div class='docblock hidden'><p>This method tests for <code>!=</code>.</p>
 </div></div><h3 id='impl-Clone' class='impl'><code class='in-band'>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../serde_json/struct.Number.html" title="struct serde_json::Number">Number</a></code><a href='#impl-Clone' class='anchor'></a><a class='srclink' href='../src/serde_json/number.rs.html#24' title='goto source code'>[src]</a></h3><div class='impl-items'><h4 id='method.clone' class="method hidden"><code id='clone.v'>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../serde_json/struct.Number.html" title="struct serde_json::Number">Number</a></code><a class='srclink' href='../src/serde_json/number.rs.html#24' title='goto source code'>[src]</a></h4><div class='docblock hidden'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
