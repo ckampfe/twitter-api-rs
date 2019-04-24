@@ -8,7 +8,7 @@ when the <code>Taker</code> does call <code>want()</code>.</li>
 <li>If the <code>Taker</code> has canceled (or dropped), this returns <code>Closed</code>.</li>
 </ul>
 <p>After knowing that the Taker is wanting, the state can be reset by
-calling <a href="Giver::give"><code>give</code></a>.</p>
+calling <a href="../want/struct.Giver.html#method.give"><code>give</code></a>.</p>
 </div><h4 id='method.give' class="method"><code id='give.v'>pub fn <a href='#method.give' class='fnname'>give</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><a class='srclink' href='../src/want/lib.rs.html#182-189' title='goto source code'>[src]</a></h4><div class='docblock'><p>Mark the state as idle, if the Taker currently is wanting.</p>
 <p>Returns true if Taker was wanting, false otherwise.</p>
 </div><h4 id='method.is_wanting' class="method"><code id='is_wanting.v'>pub fn <a href='#method.is_wanting' class='fnname'>is_wanting</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code><a class='srclink' href='../src/want/lib.rs.html#196-198' title='goto source code'>[src]</a></h4><div class='docblock'><p>Check if the <code>Taker</code> has called <code>want()</code> without parking a task.</p>
