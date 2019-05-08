@@ -3,13 +3,13 @@
 minimize the effectiveness of timing attacks.</p>
 <p><code>out.len()</code> must be no larger than the digest length * (2**32 - 1), per the
 PBKDF2 specification.</p>
-<table><thead><tr><th> Parameter   </th><th> RFC 2898 Section 5.2 Term</th></tr></thead><tbody>
-<tr><td> digest_alg  </td><td> PRF (HMAC with the given digest algorithm)</td></tr>
-<tr><td> iterations  </td><td> c (iteration count)</td></tr>
-<tr><td> salt        </td><td> S (salt)</td></tr>
-<tr><td> secret      </td><td> P (password)</td></tr>
-<tr><td> out         </td><td> dk (derived key)</td></tr>
-<tr><td> out.len()   </td><td> dkLen (derived key length)</td></tr>
+<table><thead><tr><th>Parameter   </th><th>RFC 2898 Section 5.2 Term</th></tr></thead><tbody>
+<tr><td>digest_alg  </td><td>PRF (HMAC with the given digest algorithm)</td></tr>
+<tr><td>iterations  </td><td>c (iteration count)</td></tr>
+<tr><td>salt        </td><td>S (salt)</td></tr>
+<tr><td>secret      </td><td>P (password)</td></tr>
+<tr><td>out         </td><td>dk (derived key)</td></tr>
+<tr><td>out.len()   </td><td>dkLen (derived key length)</td></tr>
 </tbody></table>
 <p>C analog: <code>PKCS5_PBKDF2_HMAC</code></p>
 <h1 id="panics" class="section-header"><a href="#panics">Panics</a></h1>
