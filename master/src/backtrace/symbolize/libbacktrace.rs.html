@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-0.3.17/src/symbolize/libbacktrace.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>libbacktrace.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../backtrace/index.html'><img src='../../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-0.3.18/src/symbolize/libbacktrace.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>libbacktrace.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../backtrace/index.html'><img src='../../../rust-logo.png' alt='logo' width='100'></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form js-only"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -400,6 +400,14 @@
 <span id="400">400</span>
 <span id="401">401</span>
 <span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// Copyright 2014-2015 The Rust Project Developers. See the COPYRIGHT</span>
 <span class="comment">// file at the top-level directory of this distribution and at</span>
@@ -434,24 +442,41 @@
         <span class="ident">filename</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>,
         <span class="ident">lineno</span>: <span class="ident">c_int</span>,
         <span class="ident">function</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>,
+        <span class="ident">symname</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span>,
     },
 }
 
 <span class="kw">impl</span> <span class="ident">Symbol</span> {
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SymbolName</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Symbol</span>::<span class="ident">Syminfo</span> { <span class="ident">symname</span>, .. } <span class="op">=&gt;</span> <span class="ident">symname</span>,
-            <span class="ident">Symbol</span>::<span class="ident">Pcinfo</span> { <span class="ident">function</span>, .. } <span class="op">=&gt;</span> <span class="ident">function</span>,
-        };
-        <span class="kw">if</span> <span class="ident">ptr</span>.<span class="ident">is_null</span>() {
-            <span class="prelude-val">None</span>
-        } <span class="kw">else</span> {
+        <span class="kw">let</span> <span class="ident">symbol</span> <span class="op">=</span> <span class="op">|</span><span class="ident">ptr</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">c_char</span><span class="op">|</span> {
             <span class="kw">unsafe</span> {
-                <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">libc</span>::<span class="ident">strlen</span>(<span class="ident">ptr</span>);
-                <span class="prelude-val">Some</span>(<span class="ident">SymbolName</span>::<span class="ident">new</span>(<span class="ident">slice</span>::<span class="ident">from_raw_parts</span>(
-                    <span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>,
-                    <span class="ident">len</span>,
-                )))
+                <span class="kw">if</span> <span class="ident">ptr</span>.<span class="ident">is_null</span>() {
+                    <span class="prelude-val">None</span>
+                } <span class="kw">else</span> {
+                    <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">libc</span>::<span class="ident">strlen</span>(<span class="ident">ptr</span>);
+                    <span class="prelude-val">Some</span>(<span class="ident">SymbolName</span>::<span class="ident">new</span>(<span class="ident">slice</span>::<span class="ident">from_raw_parts</span>(
+                        <span class="ident">ptr</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u8</span>,
+                        <span class="ident">len</span>,
+                    )))
+                }
+            }
+        };
+        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
+            <span class="ident">Symbol</span>::<span class="ident">Syminfo</span> { <span class="ident">symname</span>, .. } <span class="op">=&gt;</span> <span class="ident">symbol</span>(<span class="ident">symname</span>),
+            <span class="ident">Symbol</span>::<span class="ident">Pcinfo</span> { <span class="ident">function</span>, <span class="ident">symname</span>, .. } <span class="op">=&gt;</span> {
+                <span class="comment">// If possible prefer the `function` name which comes from</span>
+                <span class="comment">// debuginfo and can typically be more accurate for inline</span>
+                <span class="comment">// frames for example. If that&#39;s not present though fall back to</span>
+                <span class="comment">// the symbol table name specified in `symname`.</span>
+                <span class="comment">//</span>
+                <span class="comment">// Note that sometimes `function` can feel somewhat less</span>
+                <span class="comment">// accurate, for example being listed as `try&lt;i32,closure&gt;`</span>
+                <span class="comment">// isntead of `std::panicking::try::do_call`. It&#39;s not really</span>
+                <span class="comment">// clear why, but overall the `function` name seems more accurate.</span>
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">sym</span>) <span class="op">=</span> <span class="ident">symbol</span>(<span class="ident">function</span>) {
+                    <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">sym</span>)
+                }
+                <span class="ident">symbol</span>(<span class="ident">symname</span>)
             }
         }
     }
@@ -590,17 +615,8 @@
                 <span class="ident">pc</span>: <span class="ident">pc</span>,
                 <span class="ident">filename</span>: <span class="ident">filename</span>,
                 <span class="ident">lineno</span>: <span class="ident">lineno</span>,
-
-                <span class="comment">// Favor the function name going into the `syminfo_cb`. That&#39;s</span>
-                <span class="comment">// typically from the symbol table and is the full symbol name</span>
-                <span class="comment">// whereas the `function` above is coming from debuginfo which</span>
-                <span class="comment">// isn&#39;t always as descriptive when considering the whole</span>
-                <span class="comment">// program.</span>
-                <span class="ident">function</span>: <span class="kw">if</span> <span class="op">!</span><span class="ident">state</span>.<span class="ident">symname</span>.<span class="ident">is_null</span>() {
-                    <span class="ident">state</span>.<span class="ident">symname</span>
-                } <span class="kw">else</span> {
-                    <span class="ident">function</span>
-                },
+                <span class="ident">symname</span>: <span class="ident">state</span>.<span class="ident">symname</span>,
+                <span class="ident">function</span>,
             },
         });
         <span class="ident">bomb</span>.<span class="ident">enabled</span> <span class="op">=</span> <span class="bool-val">false</span>;
