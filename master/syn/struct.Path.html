@@ -9,31 +9,31 @@ feature.</em></p>
 <p><em>This function is available if Syn is built with the <code>&quot;parsing&quot;</code>
 feature.</em></p>
 <h1 id="example" class="section-header"><a href="#example">Example</a></h1>
-<div class='information'><div class='tooltip edition'>ⓘ<span class='tooltiptext'>This code runs with edition 2018</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered edition ">
-<span class="kw">use</span> <span class="ident">syn</span>::{<span class="ident">Path</span>, <span class="prelude-ty">Result</span>, <span class="ident">Token</span>};
-<span class="kw">use</span> <span class="ident">syn</span>::<span class="ident">parse</span>::{<span class="ident">Parse</span>, <span class="ident">ParseStream</span>};
+<pre><code class="language-edition2018">use syn::{Path, Result, Token};
+use syn::parse::{Parse, ParseStream};
 
-<span class="comment">// A simplified single `use` statement like:</span>
-<span class="comment">//</span>
-<span class="comment">//     use std::collections::HashMap;</span>
-<span class="comment">//</span>
-<span class="comment">// Note that generic parameters are not allowed in a `use` statement</span>
-<span class="comment">// so the following must not be accepted.</span>
-<span class="comment">//</span>
-<span class="comment">//     use a::&lt;b&gt;::c;</span>
-<span class="kw">struct</span> <span class="ident">SingleUse</span> {
-    <span class="ident">use_token</span>: <span class="macro">Token</span><span class="macro">!</span>[<span class="kw">use</span>],
-    <span class="ident">path</span>: <span class="ident">Path</span>,
+// A simplified single `use` statement like:
+//
+//     use std::collections::HashMap;
+//
+// Note that generic parameters are not allowed in a `use` statement
+// so the following must not be accepted.
+//
+//     use a::&lt;b&gt;::c;
+struct SingleUse {
+    use_token: Token![use],
+    path: Path,
 }
 
-<span class="kw">impl</span> <span class="ident">Parse</span> <span class="kw">for</span> <span class="ident">SingleUse</span> {
-    <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="ident">ParseStream</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">SingleUse</span> {
-            <span class="ident">use_token</span>: <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>,
-            <span class="ident">path</span>: <span class="ident">input</span>.<span class="ident">call</span>(<span class="ident">Path</span>::<span class="ident">parse_mod_style</span>)<span class="question-mark">?</span>,
+impl Parse for SingleUse {
+    fn parse(input: ParseStream) -&gt; Result&lt;Self&gt; {
+        Ok(SingleUse {
+            use_token: input.parse()?,
+            path: input.call(Path::parse_mod_style)?,
         })
     }
-}</pre></div>
+}
+</code></pre>
 </div><h4 id='method.is_ident' class="method"><code id='is_ident.v'>pub fn <a href='#method.is_ident' class='fnname'>is_ident</a>&lt;I&gt;(&amp;self, ident: I) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;<a class="struct" href="../syn/struct.Ident.html" title="struct syn::Ident">Ident</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a>&lt;I&gt;,&nbsp;</span></code><a class='srclink' href='../src/syn/path.rs.html#434-442' title='goto source code'>[src]</a></h4><div class='docblock'><p>Determines whether this is a path of length 1 equal to the given
 ident.</p>
 <p>For them to compare equal, it must be the case that:</p>
