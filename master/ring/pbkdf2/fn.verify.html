@@ -3,13 +3,13 @@ matches the PBKDF2 value derived from the other inputs.</p>
 <p>The comparison is done in constant time to prevent timing attacks. The
 comparison will fail if <code>previously_derived</code> is empty (has a length of
 zero).</p>
-<table><thead><tr><th>Parameter</th><th>RFC 2898 Section 5.2 Term</th></tr></thead><tbody>
-<tr><td>digest_alg</td><td>PRF (HMAC with the given digest algorithm).</td></tr>
-<tr><td><code>iterations</code></td><td>c (iteration count)</td></tr>
-<tr><td><code>salt</code></td><td>S (salt)</td></tr>
-<tr><td><code>secret</code></td><td>P (password)</td></tr>
-<tr><td><code>previously_derived</code></td><td>dk (derived key)</td></tr>
-<tr><td><code>previously_derived.len()</code></td><td>dkLen (derived key length)</td></tr>
+<table><thead><tr><th>Parameter                  </th><th>RFC 2898 Section 5.2 Term</th></tr></thead><tbody>
+<tr><td>digest_alg                 </td><td>PRF (HMAC with the given digest algorithm).</td></tr>
+<tr><td><code>iterations</code>               </td><td>c (iteration count)</td></tr>
+<tr><td><code>salt</code>                     </td><td>S (salt)</td></tr>
+<tr><td><code>secret</code>                   </td><td>P (password)</td></tr>
+<tr><td><code>previously_derived</code>       </td><td>dk (derived key)</td></tr>
+<tr><td><code>previously_derived.len()</code> </td><td>dkLen (derived key length)</td></tr>
 </tbody></table>
 <p>C analog: <code>PKCS5_PBKDF2_HMAC</code> + <code>CRYPTO_memcmp</code></p>
 <h1 id="panics" class="section-header"><a href="#panics">Panics</a></h1>
