@@ -1,6 +1,6 @@
 var N = null;var sourcesIndex = {};
 sourcesIndex["adler32"] = {"name":"","files":["lib.rs"]};
-sourcesIndex["arrayvec"] = {"name":"","files":["array.rs","array_string.rs","char.rs","errors.rs","lib.rs","maybe_uninit_nodrop.rs","range.rs"]};
+sourcesIndex["arrayvec"] = {"name":"","files":["array.rs","array_string.rs","char.rs","errors.rs","lib.rs","maybe_uninit.rs","range.rs"]};
 sourcesIndex["backtrace"] = {"name":"","dirs":[{"name":"backtrace","files":["libunwind.rs","mod.rs"]},{"name":"symbolize","files":["dladdr.rs","libbacktrace.rs","mod.rs"]}],"files":["capture.rs","lib.rs","types.rs"]};
 sourcesIndex["backtrace_sys"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["base64"] = {"name":"","files":["chunked_encoder.rs","decode.rs","display.rs","encode.rs","lib.rs","line_wrap.rs","tables.rs"]};
@@ -30,7 +30,6 @@ sourcesIndex["iovec"] = {"name":"","dirs":[{"name":"sys","files":["mod.rs","unix
 sourcesIndex["itoa"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["language_tags"] = {"name":"","files":["lib.rs"]};
 sourcesIndex["lazy_static"] = {"name":"","files":["lazy.rs","lib.rs"]};
-sourcesIndex["lazycell"] = {"name":"","dirs":[],"files":["lib.rs"]};
 sourcesIndex["libc"] = {"name":"","dirs":[{"name":"unix","dirs":[{"name":"notbsd","dirs":[{"name":"linux","dirs":[{"name":"other","dirs":[{"name":"b64","files":["mod.rs","not_x32.rs","x86_64.rs"]}],"files":["align.rs","mod.rs"]}],"files":["align.rs","mod.rs"]}],"files":["mod.rs"]}],"files":["align.rs","mod.rs"]}],"files":["fixed_width_ints.rs","lib.rs","macros.rs"]};
 sourcesIndex["libflate"] = {"name":"","dirs":[{"name":"deflate","files":["decode.rs","encode.rs","mod.rs","symbol.rs"]},{"name":"lz77","files":["default.rs","mod.rs"]},{"name":"non_blocking","dirs":[{"name":"deflate","files":["decode.rs","mod.rs"]}],"files":["gzip.rs","mod.rs","transaction.rs","zlib.rs"]}],"files":["bit.rs","checksum.rs","finish.rs","gzip.rs","huffman.rs","lib.rs","util.rs","zlib.rs"]};
 sourcesIndex["lock_api"] = {"name":"","files":["lib.rs","mutex.rs","remutex.rs","rwlock.rs"]};
