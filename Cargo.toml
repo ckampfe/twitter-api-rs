@@ -1,18 +1,20 @@
 [package]
 
 name = "twitter-api"
-version = "0.4.0"
+version = "0.5.0"
 authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/gifnksm/twitter-api-rs"
 description = "Unofficial Rust library for the Twitter API."
 documentation = "https://gifnksm.github.io/twitter-api-rs"
+edition = "2018"
 
 [dependencies]
+dirs = "2.0"
 failure = "0.1"
 failure_derive = "0.1"
-oauth-client = "0.4"
+oauth-client = { git = "https://github.com/ckampfe/oauth-client-rs.git" }
 serde = "1.0"
 serde_derive = "1.0"
 serde_json = "1.0"

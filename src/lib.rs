@@ -1,33 +1,23 @@
-#![warn(bad_style)]
-// #![warn(missing_docs)]
-#![warn(unused)]
-#![warn(unused_extern_crates)]
-#![warn(unused_import_braces)]
-#![warn(unused_qualifications)]
-#![warn(unused_results)]
-
-extern crate failure;
-extern crate oauth_client as oauth;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
-
+use failure;
 use oauth::Token;
+use oauth_client as oauth;
+use serde::{Deserialize, Serialize};
+use serde_json;
 use std::borrow::Cow;
 use std::collections::HashMap;
 
 type Result<T> = std::result::Result<T, failure::Error>;
 
 mod api_twitter_oauth {
-    pub const REQUEST_TOKEN: &'static str = "https://api.twitter.com/oauth/request_token";
-    pub const AUTHORIZE: &'static str = "https://api.twitter.com/oauth/authorize";
-    pub const ACCESS_TOKEN: &'static str = "https://api.twitter.com/oauth/access_token";
+    pub const REQUEST_TOKEN: &str = "https://api.twitter.com/oauth/request_token";
+    pub const AUTHORIZE: &str = "https://api.twitter.com/oauth/authorize";
+    pub const ACCESS_TOKEN: &str = "https://api.twitter.com/oauth/access_token";
 }
 
 mod api_twitter_soft {
-    pub const UPDATE_STATUS: &'static str = "https://api.twitter.com/1.1/statuses/update.json";
-    pub const HOME_TIMELINE: &'static str = "https://api.twitter.com/1.1/statuses/home_timeline.\
-                                             json";
+    pub const UPDATE_STATUS: &str = "https://api.twitter.com/1.1/statuses/update.json";
+    pub const HOME_TIMELINE: &str = "https://api.twitter.com/1.1/statuses/home_timeline.\
+                                     json";
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

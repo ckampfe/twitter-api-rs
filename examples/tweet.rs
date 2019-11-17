@@ -1,27 +1,19 @@
-#![warn(
-    bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-    unused_results
-)]
-
-extern crate twitter_api as twitter;
-#[macro_use]
-extern crate serde_derive;
-extern crate oauth_client as oauth;
-extern crate serde_json;
-
 use oauth::Token;
+use oauth_client as oauth;
+use serde::{Deserialize, Serialize};
+use serde_json;
 use std::convert::AsRef;
-use std::env;
 use std::fs::{File, OpenOptions};
 use std::io;
 use std::io::prelude::*;
 use std::path::Path;
 use std::path::PathBuf;
+use twitter_api as twitter;
 
 const TWITTER_CONF_FILENAME: &'static str = ".twitter.conf";
 
 fn get_home_dir() -> PathBuf {
-    match env::home_dir() {
+    match dirs::home_dir() {
         Some(p) => p,
         None => {
             panic!("Impossible to get your home dir!");
