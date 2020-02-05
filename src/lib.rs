@@ -44,8 +44,8 @@ fn split_query<'a>(query: &'a str) -> HashMap<Cow<'a, str>, Cow<'a, str>> {
     param
 }
 
-pub fn get_request_token(consumer: &Token) -> Result<Token<'static>> {
-    let bytes = oauth::get(api_twitter_oauth::REQUEST_TOKEN, consumer, None, None)?;
+pub async fn get_request_token(consumer: &Token<'_>) -> Result<Token<'static>> {
+    let bytes = oauth::get(api_twitter_oauth::REQUEST_TOKEN, consumer, None, None).await?;
     let resp = String::from_utf8(bytes)?;
     let param = split_query(&resp);
     let token = Token::new(
@@ -63,7 +63,11 @@ pub fn get_authorize_url(request: &Token) -> String {
     )
 }
 
-pub fn get_access_token(consumer: &Token, request: &Token, pin: &str) -> Result<Token<'static>> {
+pub async fn get_access_token(
+    consumer: &Token<'_>,
+    request: &Token<'_>,
+    pin: &str,
+) -> Result<Token<'static>> {
     let mut param = HashMap::new();
     let _ = param.insert("oauth_verifier".into(), pin.into());
     let bytes = oauth::get(
@@ -71,7 +75,8 @@ pub fn get_access_token(consumer: &Token, request: &Token, pin: &str) -> Result<
         consumer,
         Some(request),
         Some(&param),
-    )?;
+    )
+    .await?;
     let resp = String::from_utf8(bytes)?;
     let param = split_query(&resp);
     let token = Token::new(
@@ -83,7 +88,7 @@ pub fn get_access_token(consumer: &Token, request: &Token, pin: &str) -> Result<
 
 /// function to update the status
 /// This function takes as arguments the consumer key, the access key, and the status (obviously)
-pub fn update_status(consumer: &Token, access: &Token, status: &str) -> Result<()> {
+pub async fn update_status(consumer: &Token<'_>, access: &Token<'_>, status: &str) -> Result<()> {
     let mut param = HashMap::new();
     let _ = param.insert("status".into(), status.into());
     let _ = oauth::post(
@@ -91,17 +96,19 @@ pub fn update_status(consumer: &Token, access: &Token, status: &str) -> Result<(
         consumer,
         Some(access),
         Some(&param),
-    )?;
+    )
+    .await?;
     Ok(())
 }
 
-pub fn get_last_tweets(consumer: &Token, access: &Token) -> Result<Vec<Tweet>> {
+pub async fn get_last_tweets(consumer: &Token<'_>, access: &Token<'_>) -> Result<Vec<Tweet>> {
     let bytes = oauth::get(
         api_twitter_soft::HOME_TIMELINE,
         consumer,
         Some(access),
         None,
-    )?;
+    )
+    .await?;
     let last_tweets_json = String::from_utf8(bytes)?;
     let ts = Tweet::parse_timeline(last_tweets_json)?;
     Ok(ts)
