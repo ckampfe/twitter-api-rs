@@ -66,7 +66,8 @@ fn help() -> () {
     println!("get timeline : get your personal timeline in your console.")
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     // Get the full path of the Twitter configuration path
     let mut twitter_conf_file_path: PathBuf = get_home_dir();
     twitter_conf_file_path.push(Path::new(TWITTER_CONF_FILENAME));
@@ -84,11 +85,13 @@ fn main() {
             let consumer_secret = console_input("input your consumer secret:");
             let consumer = Token::new(consumer_key, consumer_secret);
 
-            let request = twitter::get_request_token(&consumer).unwrap();
+            let request = twitter::get_request_token(&consumer).await.unwrap();
             println!("open the following url:");
             println!("\t{}", twitter::get_authorize_url(&request));
             let pin = console_input("input pin:");
-            let access = twitter::get_access_token(&consumer, &request, &pin).unwrap();
+            let access = twitter::get_access_token(&consumer, &request, &pin)
+                .await
+                .unwrap();
 
             let c = Config {
                 consumer_key: consumer.key.to_string(),
@@ -111,10 +114,12 @@ fn main() {
         match make_your_choice.as_ref() {
             "update status" => {
                 let status = console_input("What's happening?");
-                twitter::update_status(&consumer, &access, &status).unwrap();
+                twitter::update_status(&consumer, &access, &status)
+                    .await
+                    .unwrap();
             }
             "get timeline" => {
-                let ts = twitter::get_last_tweets(&consumer, &access).unwrap();
+                let ts = twitter::get_last_tweets(&consumer, &access).await.unwrap();
                 if ts.is_empty() {
                     println!("No tweet in your timeline...");
                 } else {
