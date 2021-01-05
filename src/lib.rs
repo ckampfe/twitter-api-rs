@@ -1,8 +1,6 @@
-use failure;
 use oauth::Token;
 use oauth_client as oauth;
 use serde::{Deserialize, Serialize};
-use serde_json;
 use std::borrow::Cow;
 use std::collections::HashMap;
 
@@ -33,7 +31,7 @@ impl Tweet {
     }
 }
 
-fn split_query<'a>(query: &'a str) -> HashMap<Cow<'a, str>, Cow<'a, str>> {
+fn split_query(query: &str) -> HashMap<Cow<'_, str>, Cow<'_, str>> {
     let mut param = HashMap::new();
     for q in query.split('&') {
         let mut s = q.splitn(2, '=');
